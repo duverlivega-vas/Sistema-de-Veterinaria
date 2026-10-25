@@ -1,0 +1,11 @@
+package pe.edu.upeu.entregable1.interfaces;
+
+import pe.edu.upeu.entregable1.modelo.Cliente;
+
+public interface ICliente {
+    public void agregar(Cliente e);
+    public void listar();
+    public void eliminar(int id);
+    public void editar(int id,Cliente e);
+    public Cliente buscarPorId(int id);
+}

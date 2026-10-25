@@ -1,0 +1,11 @@
+package pe.edu.upeu.entregable1.viewcontrol;
+
+public class Index {
+    static IndexPrincipal i=new IndexPrincipal();
+
+    public static void main(String[] args) {
+
+            i.inicio();
+
+    }
+}
