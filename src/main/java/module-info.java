@@ -7,6 +7,7 @@ module pe.edu.upeu.entregable1 {
     requires net.synedra.validatorfx;
     requires org.kordamp.bootstrapfx.core;
     requires jdk.unsupported.desktop;
+    requires java.sql;
 
     opens pe.edu.upeu.entregable1 to javafx.fxml;
 
