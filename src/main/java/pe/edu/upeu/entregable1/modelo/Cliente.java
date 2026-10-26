@@ -1,28 +1,57 @@
 package pe.edu.upeu.entregable1.modelo;
 
+// CAMBIO: imports de las properties de JavaFX
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Cliente extends Persona {
-    private String direccion;
+
+    private final StringProperty direccion = new SimpleStringProperty(this, "direccion");
+
+    private final StringProperty estado = new SimpleStringProperty(this, "estado", "Activo");
 
     public Cliente() {
     }
 
+    // telefono ahora es String
     public Cliente(int idPersona, String nombres, String apellidos, String dni,
-                   int telefono, String direccion) {
+                   String telefono, String direccion) {
         super(idPersona, nombres, apellidos, dni, telefono);
-        this.direccion = direccion;
+        setDireccion(direccion);
     }
 
-    public String getDireccion() {
+    // ---------- direccion ----------
+    public final String getDireccion() {
+        return direccion.get();
+    }
+
+    public final void setDireccion(String value) {
+        direccion.set(value);
+    }
+
+    public final StringProperty direccionProperty() {
         return direccion;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    // ---------- estado ----------
+    public final String getEstado() {
+        return estado.get();
+    }
+
+    public final void setEstado(String value) {
+        estado.set(value);
+    }
+
+    public final StringProperty estadoProperty() {
+        return estado;
     }
 
     @Override
     public void mostrarInfo(Persona p) {
-        System.out.printf("ID: %d | %s %s | DNI: %s | Telefono: %d%n",
+        // CAMBIO: Telefono ahora se imprime con %s (es texto)
+        System.out.printf("ID: %d | %s %s | DNI: %s | Telefono: %s%n",
                 p.getIdPersona(), p.getNombres(), p.getApellidos(), p.getDni(), p.getTelefono());
     }
 }
+
+//cambiar todo el modelo de property (hecho)
