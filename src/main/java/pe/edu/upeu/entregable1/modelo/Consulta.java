@@ -1,18 +1,13 @@
 package pe.edu.upeu.entregable1.modelo;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class Consulta {
 
-    private final IntegerProperty idConsulta = new SimpleIntegerProperty(this, "idConsulta");
-    private final ObjectProperty<Cita> cita = new SimpleObjectProperty<>(this, "cita");
-    private final StringProperty diagnostico = new SimpleStringProperty(this, "diagnostico");
-    private final StringProperty observaciones = new SimpleStringProperty(this, "observaciones");
+    private final IntegerProperty idConsulta = new SimpleIntegerProperty();
+    private final ObjectProperty<Cita> cita = new SimpleObjectProperty<>();
+    private final StringProperty diagnostico = new SimpleStringProperty();
+    private final StringProperty observaciones = new SimpleStringProperty();
 
     public Consulta() {
     }
@@ -24,7 +19,6 @@ public class Consulta {
         setObservaciones(observaciones);
     }
 
-    // ---------- idConsulta ----------
     public final int getIdConsulta() {
         return idConsulta.get();
     }
@@ -37,7 +31,6 @@ public class Consulta {
         return idConsulta;
     }
 
-    // ---------- cita ----------
     public final Cita getCita() {
         return cita.get();
     }
@@ -50,7 +43,6 @@ public class Consulta {
         return cita;
     }
 
-    // ---------- diagnostico ----------
     public final String getDiagnostico() {
         return diagnostico.get();
     }
@@ -63,7 +55,6 @@ public class Consulta {
         return diagnostico;
     }
 
-    // ---------- observaciones ----------
     public final String getObservaciones() {
         return observaciones.get();
     }

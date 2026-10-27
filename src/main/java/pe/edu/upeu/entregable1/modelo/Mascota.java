@@ -1,24 +1,15 @@
 package pe.edu.upeu.entregable1.modelo;
 
-// CAMBIO: imports de las properties de JavaFX
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class Mascota {
 
-    // CAMBIO: atributos simples -> properties de JavaFX
-    private final IntegerProperty idMascota = new SimpleIntegerProperty(this, "idMascota");
-    private final StringProperty nombre = new SimpleStringProperty(this, "nombre");
-    private final StringProperty especie = new SimpleStringProperty(this, "especie");
-    private final StringProperty raza = new SimpleStringProperty(this, "raza");
-    // CAMBIO: el dueno (Cliente) es un objeto, por eso se usa ObjectProperty
-    private final ObjectProperty<Cliente> cliente = new SimpleObjectProperty<>(this, "cliente");
-    // NUEVO: la tabla mascota tiene la columna estado (Activo / Inactivo)
-    private final StringProperty estado = new SimpleStringProperty(this, "estado", "Activo");
+    private final IntegerProperty idMascota = new SimpleIntegerProperty();
+    private final StringProperty nombre = new SimpleStringProperty();
+    private final StringProperty especie = new SimpleStringProperty();
+    private final StringProperty raza = new SimpleStringProperty();
+    private final ObjectProperty<Cliente> cliente = new SimpleObjectProperty<>();
+    private final StringProperty estado = new SimpleStringProperty();
 
     public Mascota() {
     }
@@ -31,7 +22,6 @@ public class Mascota {
         setCliente(cliente);
     }
 
-    // ---------- idMascota ----------
     public final int getIdMascota() {
         return idMascota.get();
     }
@@ -44,7 +34,6 @@ public class Mascota {
         return idMascota;
     }
 
-    // ---------- nombre ----------
     public final String getNombre() {
         return nombre.get();
     }
@@ -57,7 +46,6 @@ public class Mascota {
         return nombre;
     }
 
-    // ---------- especie ----------
     public final String getEspecie() {
         return especie.get();
     }
@@ -70,7 +58,6 @@ public class Mascota {
         return especie;
     }
 
-    // ---------- raza ----------
     public final String getRaza() {
         return raza.get();
     }
@@ -83,7 +70,6 @@ public class Mascota {
         return raza;
     }
 
-    // ---------- cliente (dueno) ----------
     public final Cliente getCliente() {
         return cliente.get();
     }
@@ -96,7 +82,6 @@ public class Mascota {
         return cliente;
     }
 
-    // ---------- estado ----------
     public final String getEstado() {
         return estado.get();
     }

@@ -1,27 +1,20 @@
 package pe.edu.upeu.entregable1.modelo;
 
-//las properties de JavaFX
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class Veterinario extends Persona {
 
-
-    private final StringProperty especialidad = new SimpleStringProperty(this, "especialidad");
-    // NUEVO: la tabla veterinario tiene la columna estado (Activo / Inactivo)
-    private final StringProperty estado = new SimpleStringProperty(this, "estado", "Activo");
+    private final StringProperty especialidad = new SimpleStringProperty();
+    private final StringProperty estado = new SimpleStringProperty();
 
     public Veterinario() {
-
     }
-
     public Veterinario(int idPersona, String nombres, String apellidos, String dni,
                        String telefono, String especialidad) {
         super(idPersona, nombres, apellidos, dni, telefono);
         setEspecialidad(especialidad);
     }
 
-    // ---------- especialidad ----------
     public final String getEspecialidad() {
         return especialidad.get();
     }
@@ -34,7 +27,6 @@ public class Veterinario extends Persona {
         return especialidad;
     }
 
-    // ---------- estado ----------
     public final String getEstado() {
         return estado.get();
     }

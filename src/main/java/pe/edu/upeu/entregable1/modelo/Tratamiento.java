@@ -1,21 +1,14 @@
 package pe.edu.upeu.entregable1.modelo;
 
-// CAMBIO: imports de las properties de JavaFX
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class Tratamiento {
 
-    // CAMBIO: atributos simples -> properties de JavaFX
-    private final IntegerProperty idTratamiento = new SimpleIntegerProperty(this, "idTratamiento");
-    private final ObjectProperty<Consulta> consulta = new SimpleObjectProperty<>(this, "consulta");
-    private final StringProperty descripcion = new SimpleStringProperty(this, "descripcion");
-    private final StringProperty indicaciones = new SimpleStringProperty(this, "indicaciones");
-    private final IntegerProperty duracionDias = new SimpleIntegerProperty(this, "duracionDias");
+    private final IntegerProperty idTratamiento = new SimpleIntegerProperty();
+    private final ObjectProperty<Consulta> consulta = new SimpleObjectProperty<>();
+    private final StringProperty descripcion = new SimpleStringProperty();
+    private final StringProperty indicaciones = new SimpleStringProperty();
+    private final IntegerProperty duracionDias = new SimpleIntegerProperty();
 
     public Tratamiento() {
     }
@@ -28,7 +21,6 @@ public class Tratamiento {
         setDuracionDias(duracionDias);
     }
 
-    // ---------- idTratamiento ----------
     public final int getIdTratamiento() {
         return idTratamiento.get();
     }
@@ -41,7 +33,6 @@ public class Tratamiento {
         return idTratamiento;
     }
 
-    // ---------- consulta ----------
     public final Consulta getConsulta() {
         return consulta.get();
     }
@@ -54,7 +45,6 @@ public class Tratamiento {
         return consulta;
     }
 
-    // ---------- descripcion ----------
     public final String getDescripcion() {
         return descripcion.get();
     }
@@ -67,7 +57,6 @@ public class Tratamiento {
         return descripcion;
     }
 
-    // ---------- indicaciones ----------
     public final String getIndicaciones() {
         return indicaciones.get();
     }
@@ -80,7 +69,6 @@ public class Tratamiento {
         return indicaciones;
     }
 
-    // ---------- duracionDias ----------
     public final int getDuracionDias() {
         return duracionDias.get();
     }

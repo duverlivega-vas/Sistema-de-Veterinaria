@@ -1,30 +1,21 @@
 package pe.edu.upeu.entregable1.modelo;
 
-// imports de las properties de JavaFX
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import java.time.LocalDate;
 
 public class Cita {
 
-    // CAMBIO: atributos simples -> properties de JavaFX
-    private final IntegerProperty idCita = new SimpleIntegerProperty(this, "idCita");
-    private final ObjectProperty<Mascota> mascota = new SimpleObjectProperty<>(this, "mascota");
-    private final ObjectProperty<Veterinario> veterinario = new SimpleObjectProperty<>(this, "veterinario");
-    // fecha y hora siguen como texto, igual que en la base (2026-10-30 y 14:30)
-    private final StringProperty fecha = new SimpleStringProperty(this, "fecha");
-    private final StringProperty hora = new SimpleStringProperty(this, "hora");
-    private final StringProperty motivo = new SimpleStringProperty(this, "motivo");
-    // NUEVO: la tabla cita tiene la columna estado (Pendiente / Atendida / Cancelada)
-    private final StringProperty estado = new SimpleStringProperty(this, "estado", "Pendiente");
+    private final IntegerProperty idCita = new SimpleIntegerProperty();
+    private final ObjectProperty<Mascota> mascota = new SimpleObjectProperty<>();
+    private final ObjectProperty<Veterinario> veterinario = new SimpleObjectProperty<>();
+    private final ObjectProperty<LocalDate> fecha = new SimpleObjectProperty<>();
+    private final StringProperty hora = new SimpleStringProperty();
+    private final StringProperty motivo = new SimpleStringProperty();
+    private final StringProperty estado = new SimpleStringProperty();
 
     public Cita() {
     }
 
-    // ---------- idCita ----------
     public final int getIdCita() {
         return idCita.get();
     }
@@ -37,7 +28,6 @@ public class Cita {
         return idCita;
     }
 
-    // ---------- mascota ----------
     public final Mascota getMascota() {
         return mascota.get();
     }
@@ -50,7 +40,6 @@ public class Cita {
         return mascota;
     }
 
-    // ---------- veterinario ----------
     public final Veterinario getVeterinario() {
         return veterinario.get();
     }
@@ -63,20 +52,18 @@ public class Cita {
         return veterinario;
     }
 
-    // ---------- fecha ----------
-    public final String getFecha() {
+    public final LocalDate getFecha() {
         return fecha.get();
     }
 
-    public final void setFecha(String value) {
+    public final void setFecha(LocalDate value) {
         fecha.set(value);
     }
 
-    public final StringProperty fechaProperty() {
+    public final ObjectProperty<LocalDate> fechaProperty() {
         return fecha;
     }
 
-    // ---------- hora ----------
     public final String getHora() {
         return hora.get();
     }
@@ -89,7 +76,6 @@ public class Cita {
         return hora;
     }
 
-    // ---------- motivo ----------
     public final String getMotivo() {
         return motivo.get();
     }
@@ -102,7 +88,6 @@ public class Cita {
         return motivo;
     }
 
-    // ---------- estado ----------
     public final String getEstado() {
         return estado.get();
     }
