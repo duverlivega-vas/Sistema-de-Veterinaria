@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<!-- Formulario compartido para registrar y editar. Controlador y eventos pendientes. -->
+<?import javafx.geometry.Insets?>
+<GridPane fx:controller="pe.edu.upeu.entregable1.Controladores.MascotaFormControler" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" prefWidth="380" hgap="12" vgap="12" style="-fx-background-color: #F6FAFB;" prefHeight="417" stylesheets="@veterinaria.css" styleClass="vet-root" minWidth="380">
+    <padding>
+        <Insets top="24" right="24" bottom="24" left="24"/>
+    </padding>
+    <columnConstraints>
+        <ColumnConstraints percentWidth="35" hgrow="NEVER"/>
+        <ColumnConstraints percentWidth="65" hgrow="ALWAYS"/>
+    </columnConstraints>
+    <children>
+        <Label fx:id="lblTitulo" text="Datos de mascota" style="-fx-font-size: 23; -fx-font-weight: bold; -fx-text-fill: #0B3557;" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" wrapText="true" minWidth="0"/>
+        <Label text="Nombre" style="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="1" minWidth="0"/>
+        <TextField fx:id="txtNombre" prefWidth="200" prefHeight="30" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="1" minWidth="0"/>
+        <Label text="Especie" style="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="2" minWidth="0"/>
+        <ComboBox fx:id="cmbEspecie" prefWidth="200" prefHeight="30" promptText="Seleccionar" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="2" minWidth="0">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Perro"/>
+                    <String fx:value="Gato"/>
+                    <String fx:value="Ave"/>
+                    <String fx:value="Otro"/>
+                </FXCollections>
+            </items>
+        </ComboBox>
+        <Label text="Raza" style="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="3" minWidth="0"/>
+        <TextField fx:id="txtRaza" prefWidth="200" prefHeight="30" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="3" minWidth="0"/>
+        <Label text="Propietario" style="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="4" minWidth="0"/>
+        <ComboBox fx:id="cmbCliente" prefWidth="200" prefHeight="30" promptText="Seleccionar" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="4" minWidth="0"/>
+        <Label text="Estado" style="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="5" minWidth="0"/>
+        <ComboBox fx:id="cmbEstado" prefWidth="200" prefHeight="30" promptText="Seleccionar" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="5" minWidth="0">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Activo"/>
+                    <String fx:value="Inactivo"/>
+                </FXCollections>
+            </items>
+        </ComboBox>
+        <HBox spacing="12" alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.columnSpan="2">
+            <Button fx:id="btnGuardar" prefWidth="110" prefHeight="34" text="Guardar" style="-fx-background-color: #0E7C86; -fx-text-fill: white;"/>
+            <Button fx:id="btnCancelarEdicion" prefWidth="110" prefHeight="34" text="Cancelar" style="-fx-background-color: white; -fx-border-color: #0E7C86; -fx-text-fill: #0E7C86;"/>
+        </HBox>
+        <Label fx:id="lblMensaje" prefWidth="600" text="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.columnSpan="2" minWidth="0"/>
+    </children>
+</GridPane>

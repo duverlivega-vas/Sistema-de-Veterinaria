@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000" prefHeight="680" fx:controller="pe.edu.upeu.entregable1.Controladores.MainControler" stylesheets="@veterinaria.css" styleClass="vet-root">
+    <top>
+        <AnchorPane prefHeight="65" style="-fx-background-color: #0B3557;">
+            <children>
+                <Label layoutX="20" layoutY="20" text="SISTEMA VETERINARIO" style="-fx-font-size: 21; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <Label fx:id="lblUsuario" text="Usuario conectado" AnchorPane.rightAnchor="160" layoutY="25" style="-fx-text-fill: white;"/>
+                <Button fx:id="btnCerrarSesion" text="Cerrar sesión" AnchorPane.rightAnchor="20" layoutY="18" prefHeight="32" style="-fx-background-color: white; -fx-border-color: #0E7C86; -fx-text-fill: #0E7C86;"/>
+            </children>
+        </AnchorPane>
+    </top>
+    <left>
+        <VBox prefWidth="180" spacing="8" style="-fx-background-color: #E7F2F4; -fx-padding: 16;" minWidth="180">
+            <Button fx:id="btnInicio" text="Inicio" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnClientes" text="Clientes" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnMascotas" text="Mascotas" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnVeterinarios" text="Veterinarios" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnCitas" text="Citas" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnConsultas" text="Consultas" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnTratamientos" text="Tratamientos" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnUsuarios" text="Usuarios" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnVacunacion" text="Vacunación" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Label text="Vacunación: módulo propuesto" wrapText="true" prefWidth="160"/>
+        </VBox>
+    </left>
+    <center>
+        <StackPane fx:id="contenedorVistas" minWidth="0" minHeight="0">
+            <children>
+                <fx:include source="home-view.fxml"/>
+            </children>
+        </StackPane>
+    </center>
+</BorderPane>

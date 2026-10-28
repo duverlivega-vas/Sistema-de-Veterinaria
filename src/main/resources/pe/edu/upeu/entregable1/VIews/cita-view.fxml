@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<!-- Diseño visual: los botones aún no tienen acciones. -->
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pe.edu.upeu.entregable1.Controladores.CItaControler" prefWidth="820" prefHeight="615" style="-fx-background-color: #F6FAFB;" stylesheets="@veterinaria.css" styleClass="vet-root" minWidth="0" minHeight="0" spacing="14">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <children>
+        <Label text="CITAS" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #0B3557;"/>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <TextField fx:id="txtBuscar" prefWidth="350" prefHeight="32" promptText="ID o nombre de mascota" HBox.hgrow="ALWAYS" minWidth="0"/>
+            <Button fx:id="btnBuscar" prefWidth="110" prefHeight="34" text="Buscar" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minWidth="110"/>
+            <Button fx:id="btnMostrarTodos" prefWidth="140" prefHeight="34" text="Mostrar todos" style="-fx-background-color: white; -fx-border-color: #0E7C86; -fx-text-fill: #0E7C86;" minWidth="140"/>
+        </HBox>
+        <TableView fx:id="tblCitas" prefWidth="780" prefHeight="400" VBox.vgrow="ALWAYS" minHeight="100" minWidth="0">
+            <placeholder>
+                <Label text="Todavía no hay registros"/>
+            </placeholder>
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60" minWidth="55"/>
+                <TableColumn fx:id="colMascota" text="Mascota" prefWidth="120" minWidth="85"/>
+                <TableColumn fx:id="colVeterinario" text="Veterinario" prefWidth="120" minWidth="85"/>
+                <TableColumn fx:id="colFecha" text="Fecha" prefWidth="120" minWidth="85"/>
+                <TableColumn fx:id="colHora" text="Hora" prefWidth="120" minWidth="85"/>
+                <TableColumn fx:id="colMotivo" text="Motivo" prefWidth="120" minWidth="85"/>
+                <TableColumn fx:id="colEstado" text="Estado" prefWidth="120" minWidth="85"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
+        <FlowPane hgap="10" vgap="8">
+            <Button fx:id="btnNuevo" prefWidth="110" prefHeight="34" text="Nuevo" style="-fx-background-color: #0E7C86; -fx-text-fill: white;"/>
+            <Button fx:id="btnEditar" prefWidth="110" prefHeight="34" text="Editar" style="-fx-background-color: #0B3557; -fx-text-fill: white;"/>
+            <Button fx:id="btnCancelarCita" prefWidth="145" prefHeight="34" text="Cancelar cita" style="-fx-background-color: #47758A; -fx-text-fill: white;"/>
+            <Button fx:id="btnAtender" prefWidth="110" prefHeight="34" text="Atender" style="-fx-background-color: #0E7C86; -fx-text-fill: white;"/>
+        </FlowPane>
+        <Label fx:id="lblMensaje" prefWidth="930" text="" minHeight="18" wrapText="true"/>
+    </children>
+</VBox>

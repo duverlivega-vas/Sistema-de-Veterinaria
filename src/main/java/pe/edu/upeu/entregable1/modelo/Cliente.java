@@ -1,7 +1,7 @@
 package pe.edu.upeu.entregable1.modelo;
 
 public class Cliente extends Persona {
-    private String direccion;
+  private String direccion;
 
     public Cliente() {
     }
