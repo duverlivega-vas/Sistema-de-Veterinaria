@@ -1,60 +1,96 @@
 package pe.edu.upeu.entregable1.modelo;
 
+import javafx.beans.property.*;
+
 public class Mascota {
-    private int idMascota;
-    private String nombre;
-    private String especie;
-    private String raza;
-    private Cliente cliente;
+
+    private final IntegerProperty idMascota = new SimpleIntegerProperty();
+    private final StringProperty nombre = new SimpleStringProperty();
+    private final StringProperty especie = new SimpleStringProperty();
+    private final StringProperty raza = new SimpleStringProperty();
+    private final ObjectProperty<Cliente> cliente = new SimpleObjectProperty<>();
+    private final StringProperty estado = new SimpleStringProperty();
 
     public Mascota() {
     }
 
     public Mascota(int idMascota, String nombre, String especie, String raza, Cliente cliente) {
-        this.idMascota = idMascota;
-        this.nombre = nombre;
-        this.especie = especie;
-        this.raza = raza;
-        this.cliente = cliente;
+        setIdMascota(idMascota);
+        setNombre(nombre);
+        setEspecie(especie);
+        setRaza(raza);
+        setCliente(cliente);
     }
 
-    public int getIdMascota() {
+    public final int getIdMascota() {
+        return idMascota.get();
+    }
+
+    public final void setIdMascota(int value) {
+        idMascota.set(value);
+    }
+
+    public final IntegerProperty idMascotaProperty() {
         return idMascota;
     }
 
-    public void setIdMascota(int idMascota) {
-        this.idMascota = idMascota;
+    public final String getNombre() {
+        return nombre.get();
     }
 
-    public String getNombre() {
+    public final void setNombre(String value) {
+        nombre.set(value);
+    }
+
+    public final StringProperty nombreProperty() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public final String getEspecie() {
+        return especie.get();
     }
 
-    public String getEspecie() {
+    public final void setEspecie(String value) {
+        especie.set(value);
+    }
+
+    public final StringProperty especieProperty() {
         return especie;
     }
 
-    public void setEspecie(String especie) {
-        this.especie = especie;
+    public final String getRaza() {
+        return raza.get();
     }
 
-    public String getRaza() {
+    public final void setRaza(String value) {
+        raza.set(value);
+    }
+
+    public final StringProperty razaProperty() {
         return raza;
     }
 
-    public void setRaza(String raza) {
-        this.raza = raza;
+    public final Cliente getCliente() {
+        return cliente.get();
     }
 
-    public Cliente getCliente() {
+    public final void setCliente(Cliente value) {
+        cliente.set(value);
+    }
+
+    public final ObjectProperty<Cliente> clienteProperty() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public final String getEstado() {
+        return estado.get();
+    }
+
+    public final void setEstado(String value) {
+        estado.set(value);
+    }
+
+    public final StringProperty estadoProperty() {
+        return estado;
     }
 }

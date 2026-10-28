@@ -10,6 +10,8 @@ import pe.edu.upeu.entregable1.implementacion.VeterinarioImpl;
 import pe.edu.upeu.entregable1.interfaces.IVeterinario;
 import pe.edu.upeu.entregable1.modelo.Veterinario;
 
+import java.time.LocalDate;
+
 public class CitaLectura {
     static Lectura leer=new Lectura();
     static ICita crud=new CitaImpl();
@@ -53,7 +55,7 @@ public class CitaLectura {
         }
 
         System.out.println("FECHA:");
-        m.setFecha(leer.cadena());
+        m.setFecha(LocalDate.parse(leer.cadena()));
 
         System.out.println("HORA:");
         m.setHora(leer.cadena());

@@ -1,62 +1,102 @@
 package pe.edu.upeu.entregable1.modelo;
 
+import javafx.beans.property.*;
+import java.time.LocalDate;
+
 public class Cita {
-    private int idCita;
-    private Mascota mascota;
-    private Veterinario veterinario;
-    private String fecha;
-    private String hora;
-    private String motivo;
+
+    private final IntegerProperty idCita = new SimpleIntegerProperty();
+    private final ObjectProperty<Mascota> mascota = new SimpleObjectProperty<>();
+    private final ObjectProperty<Veterinario> veterinario = new SimpleObjectProperty<>();
+    private final ObjectProperty<LocalDate> fecha = new SimpleObjectProperty<>();
+    private final StringProperty hora = new SimpleStringProperty();
+    private final StringProperty motivo = new SimpleStringProperty();
+    private final StringProperty estado = new SimpleStringProperty();
 
     public Cita() {
     }
 
+    public final int getIdCita() {
+        return idCita.get();
+    }
 
-    public int getIdCita() {
+    public final void setIdCita(int value) {
+        idCita.set(value);
+    }
+
+    public final IntegerProperty idCitaProperty() {
         return idCita;
     }
 
-    public void setIdCita(int idCita) {
-        this.idCita = idCita;
+    public final Mascota getMascota() {
+        return mascota.get();
     }
 
-    public Mascota getMascota() {
+    public final void setMascota(Mascota value) {
+        mascota.set(value);
+    }
+
+    public final ObjectProperty<Mascota> mascotaProperty() {
         return mascota;
     }
 
-    public void setMascota(Mascota mascota) {
-        this.mascota = mascota;
+    public final Veterinario getVeterinario() {
+        return veterinario.get();
     }
 
-    public Veterinario getVeterinario() {
+    public final void setVeterinario(Veterinario value) {
+        veterinario.set(value);
+    }
+
+    public final ObjectProperty<Veterinario> veterinarioProperty() {
         return veterinario;
     }
 
-    public void setVeterinario(Veterinario veterinario) {
-        this.veterinario = veterinario;
+    public final LocalDate getFecha() {
+        return fecha.get();
     }
 
-    public String getFecha() {
+    public final void setFecha(LocalDate value) {
+        fecha.set(value);
+    }
+
+    public final ObjectProperty<LocalDate> fechaProperty() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public final String getHora() {
+        return hora.get();
     }
 
-    public String getHora() {
+    public final void setHora(String value) {
+        hora.set(value);
+    }
+
+    public final StringProperty horaProperty() {
         return hora;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
+    public final String getMotivo() {
+        return motivo.get();
     }
 
-    public String getMotivo() {
+    public final void setMotivo(String value) {
+        motivo.set(value);
+    }
+
+    public final StringProperty motivoProperty() {
         return motivo;
     }
 
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
+    public final String getEstado() {
+        return estado.get();
+    }
+
+    public final void setEstado(String value) {
+        estado.set(value);
+    }
+
+    public final StringProperty estadoProperty() {
+        return estado;
     }
 }

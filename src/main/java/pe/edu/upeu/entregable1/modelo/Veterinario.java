@@ -1,62 +1,57 @@
 package pe.edu.upeu.entregable1.modelo;
 
+import javafx.beans.property.*;
 
+public class Veterinario extends Persona {
 
-public class Veterinario extends Persona{
+    private final StringProperty especialidad = new SimpleStringProperty();
+    private final StringProperty estado = new SimpleStringProperty();
 
-    private String especialidad;
-
-
+    public Veterinario(int idPersona, String nombres, String apellidos, String dni,
+                       int telefono, String especialidad) {
+        this(idPersona, nombres, apellidos, dni, String.valueOf(telefono), especialidad);
+    }
 
     public Veterinario() {
-
     }
-
-
-
-    public Veterinario(int idPersona, String nombres, String apellidos, String dni, int telefono, String especialidad) {
-
+    public Veterinario(int idPersona, String nombres, String apellidos, String dni,
+                       String telefono, String especialidad) {
         super(idPersona, nombres, apellidos, dni, telefono);
-
-        this.especialidad = especialidad;
-
+        setEspecialidad(especialidad);
     }
 
+    public final String getEspecialidad() {
+        return especialidad.get();
+    }
 
+    public final void setEspecialidad(String value) {
+        especialidad.set(value);
+    }
 
-    public String getEspecialidad() {
-
+    public final StringProperty especialidadProperty() {
         return especialidad;
-
     }
 
-
-
-    public void setEspecialidad(String especialidad) {
-
-        this.especialidad = especialidad;
-
+    public final String getEstado() {
+        return estado.get();
     }
 
+    public final void setEstado(String value) {
+        estado.set(value);
+    }
 
+    public final StringProperty estadoProperty() {
+        return estado;
+    }
 
     @Override
-
     public void mostrarInfo(Persona p) {
-
         super.mostrarInfo(p);
-
-        System.out.println("\nID VETERINARIO: "+p.getIdPersona()
-
-                +"\nNOMBRES: "+p.getNombres()
-
-                +"\nAPELLIDOS: "+p.getApellidos()
-
-                +"\nDNI: "+p.getDni()
-
-                +"\nTELEFONO: "+p.getTelefono());
-
+        System.out.println("\nID VETERINARIO: " + p.getIdPersona()
+                + "\nNOMBRES: " + p.getNombres()
+                + "\nAPELLIDOS: " + p.getApellidos()
+                + "\nDNI: " + p.getDni()
+                + "\nTELEFONO: " + p.getTelefono());
     }
 
 }
-

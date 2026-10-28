@@ -50,7 +50,7 @@ public class ClienteLectura {
 
         System.out.println("TELEFONO: ");
 
-        e.setTelefono(leer.celular());
+        e.setTelefono(String.valueOf(leer.celular()));
 
 
 
@@ -116,7 +116,7 @@ public class ClienteLectura {
 
             System.out.println("Nuevo telefono: ");
 
-            e.setTelefono(leer.celular());
+            e.setTelefono(String.valueOf(leer.celular()));
 
 
 

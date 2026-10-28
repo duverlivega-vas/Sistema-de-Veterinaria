@@ -1,1 +1,96 @@
-package pe.edu.upeu.entregable1.modelo;public class Persona {    private int idPersona;    private String Nombres;    private String Apellidos;    private String dni;    private int telefono;    public Persona() {    }    public Persona(int idPersona, String nombres, String apellidos, String dni, int telefono) {        this.idPersona = idPersona;        Nombres = nombres;        Apellidos = apellidos;        this.dni = dni;        this.telefono = telefono;    }    public int getIdPersona() {        return idPersona;    }    public void setIdPersona(int idPersona) {        this.idPersona = idPersona;    }    public String getNombres() {        return Nombres;    }    public void setNombres(String nombres) {        Nombres = nombres;    }    public String getApellidos() {        return Apellidos;    }    public void setApellidos(String apellidos) {        Apellidos = apellidos;    }    public String getDni() {        return dni;    }    public void setDni(String dni) {        this.dni = dni;    }    public int getTelefono() {        return telefono;    }    public void setTelefono(int telefono) {        this.telefono = telefono;    }    public void mostrarInfo(Persona p) {    }}
+package pe.edu.upeu.entregable1.modelo;
+
+import javafx.beans.property.*;
+
+public class Persona {
+
+    private final IntegerProperty idPersona = new SimpleIntegerProperty();
+    private final StringProperty nombres = new SimpleStringProperty();
+    private final StringProperty apellidos = new SimpleStringProperty();
+    private final StringProperty dni = new SimpleStringProperty();
+    private final StringProperty telefono = new SimpleStringProperty();
+
+    // Compatibilidad con llamadas de la versión de consola.
+    public Persona(int idPersona, String nombres, String apellidos, String dni, int telefono) {
+        this(idPersona, nombres, apellidos, dni, String.valueOf(telefono));
+    }
+
+    public final void setTelefono(int value) {
+        setTelefono(String.valueOf(value));
+    }
+
+    public Persona() {
+    }
+
+    public Persona(int idPersona, String nombres, String apellidos, String dni, String telefono) {
+        setIdPersona(idPersona);
+        setNombres(nombres);
+        setApellidos(apellidos);
+        setDni(dni);
+        setTelefono(telefono);
+    }
+
+    public final int getIdPersona() {
+        return idPersona.get();
+    }
+
+    public final void setIdPersona(int value) {
+        idPersona.set(value);
+    }
+
+    public final IntegerProperty idPersonaProperty() {
+        return idPersona;
+    }
+
+    public final String getNombres() {
+        return nombres.get();
+    }
+
+    public final void setNombres(String value) {
+        nombres.set(value);
+    }
+
+    public final StringProperty nombresProperty() {
+        return nombres;
+    }
+
+    public final String getApellidos() {
+        return apellidos.get();
+    }
+
+    public final void setApellidos(String value) {
+        apellidos.set(value);
+    }
+
+    public final StringProperty apellidosProperty() {
+        return apellidos;
+    }
+
+    public final String getDni() {
+        return dni.get();
+    }
+
+    public final void setDni(String value) {
+        dni.set(value);
+    }
+
+    public final StringProperty dniProperty() {
+        return dni;
+    }
+
+    public final String getTelefono() {
+        return telefono.get();
+    }
+
+    public final void setTelefono(String value) {
+        telefono.set(value);
+    }
+
+    public final StringProperty telefonoProperty() {
+        return telefono;
+    }
+
+    public void mostrarInfo(Persona p) {
+    }
+
+}

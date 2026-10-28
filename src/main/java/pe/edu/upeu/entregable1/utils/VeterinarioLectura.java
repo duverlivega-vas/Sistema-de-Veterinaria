@@ -50,7 +50,7 @@ public class VeterinarioLectura {
 
         System.out.println("TELEFONO: ");
 
-        d.setTelefono(leer.celular());
+        d.setTelefono(String.valueOf(leer.celular()));
 
 
 

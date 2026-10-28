@@ -9,7 +9,7 @@ public static Connection getConnection(){
     try {
         if (connection == null || connection.isClosed()) {
            Class.forName("org.sqlite.JDBC");
-           String url="jdbc:sqlite:C:/sqlite/db/veterinaria.db";
+           String url = System.getProperty("veterinaria.db.url", "jdbc:sqlite:C:/sqlite/db/veterinaria.db");
            connection= DriverManager.getConnection(url);
            try(Statement st = connection.createStatement()){
                st.execute("PRAGMA foreign_keys = ON;");
@@ -21,7 +21,7 @@ public static Connection getConnection(){
         }
         return connection;
     } catch (Exception e) {
-        throw new IllegalArgumentException("error de conexion a la base de datos"+e.getMessage());
+        throw new IllegalArgumentException("Error de conexión a la base de datos", e);
     }
 
 
