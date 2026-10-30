@@ -93,4 +93,8 @@ public class Mascota {
     public final StringProperty estadoProperty() {
         return estado;
     }
+    @Override
+    public String toString() {
+        return getIdMascota() + " - " + getNombre();
+    }
 }

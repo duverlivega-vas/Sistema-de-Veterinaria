@@ -1,130 +1,141 @@
 package pe.edu.upeu.entregable1.implementacion;
 
-
 import pe.edu.upeu.entregable1.interfaces.ICliente;
-
-import pe.edu.upeu.entregable1.modelo.Cliente;
-import pe.edu.upeu.entregable1.modelo.Mascota;
-
-
+import pe.edu.upeu.entregable1.modelo.*;
+import pe.edu.upeu.entregable1.utils.ConexionBD;
+import java.sql.*;
 import java.util.ArrayList;
-
+import java.util.List;
 
 public class ClienteImpl implements ICliente {
 
-    static ArrayList<Cliente> ArrayCliente = new ArrayList<>();
-
     @Override
-
-    public void agregar(Cliente e) {
-
-        if (e == null || e.getIdPersona() <= 0) {
-            System.out.println("El ID debe ser mayor que cero.");
-            return;
+    public boolean agregar(Cliente c) {
+        boolean flag = false;
+        String query = "INSERT INTO cliente(nombres, apellidos, dni, telefono, direccion, estado) VALUES(?, ?, ?, ?, ?, ?)";
+        try (Connection cn = ConexionBD.getConnection();
+             PreparedStatement st = cn.prepareStatement(query)) {
+            st.setString(1, c.getNombres());
+            st.setString(2, c.getApellidos());
+            st.setString(3, c.getDni());
+            st.setString(4, c.getTelefono());
+            st.setString(5, c.getDireccion());
+            st.setString(6, c.getEstado());
+            flag = st.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Error al insertar cliente: " + e.getMessage());
         }
-        for (Cliente registrado : ArrayCliente) {
-            if (registrado.getIdPersona() == e.getIdPersona()) {
-                System.out.println("Ya existe un registro con ese ID.");
-                return;
-            }
-        }
-        ArrayCliente.add(e);
-
-        System.out.println("<<Register Success>>");
-
-
+        return flag;
     }
 
-
     @Override
-
-    public void listar() {
-        if (ArrayCliente.isEmpty()) {
-            System.out.println("No hay registros");
-        } else {
-            System.out.println("\nLISTA DE CLIENTES");
-            System.out.println("");
-            System.out.printf("%-6s %-18s %-18s %-12s %-12s %-25s%n",
-                    "ID", "NOMBRES", "APELLIDOS", "DNI", "TELEFONO", "DIRECCION");
-            System.out.println("------------------------------------------------------------------------------------------------");
-            for (Cliente es : ArrayCliente) {
-                System.out.printf("%-6s %-18s %-18s %-12s %-12s %-25s%n",
-                        es.getIdPersona(), es.getNombres(), es.getApellidos(), es.getDni(), es.getTelefono(), es.getDireccion());
-            }
+    public boolean update(Cliente c) {
+        boolean flag = false;
+        String query = "UPDATE cliente SET nombres=?, apellidos=?, dni=?, telefono=?, direccion=?, estado=? WHERE idcliente=?";
+        try (Connection cn = ConexionBD.getConnection();
+             PreparedStatement st = cn.prepareStatement(query)) {
+            st.setString(1, c.getNombres());
+            st.setString(2, c.getApellidos());
+            st.setString(3, c.getDni());
+            st.setString(4, c.getTelefono());
+            st.setString(5, c.getDireccion());
+            st.setString(6, c.getEstado());
+            st.setInt(7, c.getIdcliente());
+            flag = st.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar cliente: " + e.getMessage());
         }
+        return flag;
     }
 
+    @Override
+    public boolean delete(Cliente c) {
+        boolean flag = false;
+        String query = "DELETE FROM cliente WHERE idcliente=?";
+        try (Connection cn = ConexionBD.getConnection();
+             PreparedStatement st = cn.prepareStatement(query)) {
+            st.setInt(1, c.getIdcliente());
+            flag = st.executeUpdate() > 0;
+        } catch (SQLException e) {
+            if (e.getMessage() != null && e.getMessage().contains("FOREIGN KEY constraint failed")) {
+                throw new IllegalStateException("No se puede eliminar este cliente porque tiene mascotas registradas. Puede marcarlo como Inactivo desde Editar para conservar su historial.", e);
+            }
+            throw new IllegalStateException("No se pudo completar la eliminación: " + e.getMessage(), e);
+        }
+        return flag;
+    }
 
     @Override
-
-    public void eliminar(int id) {
-
-        Cliente e = buscarPorId(id);
-
-        if (e != null) {
-
-            for (Mascota mascota : MascotaImpl.arrayM) {
-                if (mascota.getCliente() != null && mascota.getCliente().getIdPersona() == id) {
-                    System.out.println("No se puede eliminar: el cliente tiene mascotas registradas.");
-                    return;
+    public Cliente searchById(int id) {
+        Cliente c = null;
+        String query = "SELECT * FROM cliente WHERE idcliente=?";
+        try (Connection cn = ConexionBD.getConnection();
+             PreparedStatement st = cn.prepareStatement(query)) {
+            st.setInt(1, id);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    c = new Cliente();
+                    c.setIdcliente(rs.getInt("idcliente"));
+                    c.setNombres(rs.getString("nombres"));
+                    c.setApellidos(rs.getString("apellidos"));
+                    c.setDni(rs.getString("dni"));
+                    c.setTelefono(rs.getString("telefono"));
+                    c.setDireccion(rs.getString("direccion"));
+                    c.setEstado(rs.getString("estado"));
                 }
             }
-            ArrayCliente.remove(e);
-
-            System.out.println("<<Cliente Eliminado>>");
-
-        } else {
-
-            System.out.println("No existe el cliente con este ID");
-
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al buscar cliente: " + e.getMessage(), e);
         }
-
+        return c;
     }
 
-
     @Override
-
-    public void editar(int id, Cliente e) {
-
-        Cliente est = buscarPorId(id);
-        if (est == null) {
-            System.out.println("El ID no existe");
-            return;
-        }
-
-        est.setNombres(e.getNombres());
-
-        est.setApellidos(e.getApellidos());
-
-        est.setDni(e.getDni());
-        est.setTelefono(e.getTelefono());
-
-        est.setDireccion(e.getDireccion());
-
-        est.setIdPersona(id);
-
-        System.out.println("<<Cliente editado success");
-
-    }
-
-
-    @Override
-
-    public Cliente buscarPorId(int id) {
-
-        for (Cliente e : ArrayCliente) {
-
-            if (e.getIdPersona() == id) {
-
-                return e;
-
+    public Cliente searchByDni(String dni) {
+        Cliente c = null;
+        String query = "SELECT * FROM cliente WHERE dni=?";
+        try (Connection cn = ConexionBD.getConnection();
+             PreparedStatement st = cn.prepareStatement(query)) {
+            st.setString(1, dni);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    c = new Cliente();
+                    c.setIdcliente(rs.getInt("idcliente"));
+                    c.setNombres(rs.getString("nombres"));
+                    c.setApellidos(rs.getString("apellidos"));
+                    c.setDni(rs.getString("dni"));
+                    c.setTelefono(rs.getString("telefono"));
+                    c.setDireccion(rs.getString("direccion"));
+                    c.setEstado(rs.getString("estado"));
+                }
             }
-
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al buscar cliente: " + e.getMessage(), e);
         }
-
-        return null;
-
+        return c;
     }
 
+    @Override
+    public List<Cliente> listAll() {
+        List<Cliente> lista = new ArrayList<>();
+        String query = "SELECT * FROM cliente";
+        try (Connection cn = ConexionBD.getConnection();
+             PreparedStatement st = cn.prepareStatement(query);
+             ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                Cliente c = new Cliente();
+                c.setIdcliente(rs.getInt("idcliente"));
+                c.setNombres(rs.getString("nombres"));
+                c.setApellidos(rs.getString("apellidos"));
+                c.setDni(rs.getString("dni"));
+                c.setTelefono(rs.getString("telefono"));
+                c.setDireccion(rs.getString("direccion"));
+                c.setEstado(rs.getString("estado"));
+                lista.add(c);
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al listar cliente: " + e.getMessage(), e);
+        }
+        return lista;
+    }
 }
-

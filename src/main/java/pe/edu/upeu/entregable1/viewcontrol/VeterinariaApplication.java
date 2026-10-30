@@ -9,8 +9,8 @@ public class VeterinariaApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "/pe/edu/upeu/entregable1/VIews/main-view.fxml"));
-        stage.setScene(new Scene(loader.load(), 1000, 680));
+                "/pe/edu/upeu/entregable1/VIews/login-view.fxml"));
+        stage.setScene(new Scene(loader.load(), 900, 640));
         stage.setTitle("Sistema de Veterinaria");
         stage.setMinWidth(900);
         stage.setMinHeight(600);

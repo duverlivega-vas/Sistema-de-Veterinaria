@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import javafx.beans.property.SimpleStringProperty;
 import pe.edu.upeu.entregable1.modelo.*;
-import pe.edu.upeu.entregable1.implementacion.ClienteImpl;
 
 class ModelIntegrationTest {
     @Test void preservesOldConstructorsAndObservableProperties() {
@@ -15,6 +14,7 @@ class ModelIntegrationTest {
         assertEquals("912345678", persona.telefonoProperty().get());
         Cliente cliente = new Cliente(2, "Ana", "Vega", "12345678", "00123", "Lima");
         assertEquals("00123", cliente.getTelefono());
+        assertEquals(2, cliente.getIdcliente());
         var nombre = new SimpleStringProperty();
         nombre.bind(cliente.nombresProperty());
         cliente.setNombres("Maria");
@@ -44,16 +44,4 @@ class ModelIntegrationTest {
         assertEquals(5, tratamiento.duracionDiasProperty().get());
     }
 
-    @Test void existingConsoleCrudWorksWithPropertyModels() {
-        ClienteImpl crud = new ClienteImpl();
-        Cliente cliente = new Cliente(91234,"Ana","Vega","123","00123","Lima");
-        crud.agregar(cliente);
-        assertSame(cliente, crud.buscarPorId(91234));
-        crud.editar(91234,new Cliente(91234,"Maria","Vega","123","00456","Puno"));
-        assertEquals("Maria",crud.buscarPorId(91234).getNombres());
-        assertEquals("00456",crud.buscarPorId(91234).getTelefono());
-        assertDoesNotThrow(crud::listar);
-        crud.eliminar(91234);
-        assertNull(crud.buscarPorId(91234));
-    }
 }

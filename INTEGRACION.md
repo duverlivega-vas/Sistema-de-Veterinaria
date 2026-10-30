@@ -1,5 +1,47 @@
 # Integración del sistema de veterinaria
 
+## Avisos de versión y eliminación — 29/10/2026
+
+Se corrigieron las cuatro vistas que declaraban JavaFX 26 para usar el namespace JavaFX 21 del proyecto. ConexionBD ya no imprime un mensaje por cada reapertura. Las pruebas de conexión siguen disponibles en Test.
+
+Delete conserva boolean para indicar una fila eliminada o un ID inexistente. Los errores SQL se comunican al controlador con IllegalStateException. Si SQLite informa FOREIGN KEY constraint failed, se muestra la relación concreta que impide eliminar (mascotas, citas, consultas o tratamientos). No se desactivan las claves foráneas ni se borran datos en cascada. Para conservar historial, Cliente, Veterinario y Mascota pueden marcarse Inactivo desde Editar.
+
+Verificación: clean verify, 12 pruebas correctas y sin avisos de versión FXML. Base original sin cambios.
+
+## Estado actual — 29/10/2026
+
+Esta actualización reemplaza las limitaciones indicadas en los apartados históricos siguientes. Los siete CRUD muestran Alerts del profesor para resultados, advertencias y errores. El login admite admin/admin123 y los usuarios registrados; el usuario conectado aparece en la cabecera. admin queda reservado para la demostración. Los errores SQL de lectura se comunican al controlador en lugar de simular una lista vacía.
+
+Verificación: mvnw.cmd verify, 12 pruebas correctas. Se comprobaron también duplicados, cancelación de borrado, claves foráneas, cambio de contraseña y alertas visibles. La base de trabajo y ConexionBD no se modificaron. La explicación del código está en GUIA_CONTROLADORES.md.
+
+## Prueba funcional con login (28/10/2026)
+
+Este apartado reemplaza las limitaciones de controladores descritas en el historial inferior.
+
+- Ejecutar `ejecutar.cmd` desde la raíz del proyecto o iniciar `VeterinariaApplication` desde el IDE. El lanzador usa JAVA_HOME y, si no está definido, el JDK 21 instalado en esta computadora.
+- Acceso de demostración: usuario `admin`, contraseña `admin123`. Se comprueba en LoginControler y no depende de la tabla usuario. Cerrar sesión devuelve al login y limpia las credenciales.
+- Los siete módulos tienen tabla, Nuevo, Editar, Eliminar con confirmación, Buscar y Mostrar todos. Los formularios validan campos obligatorios, DNI, hora y duración. Usuario ahora tiene modelo, interfaz e implementación sobre su tabla existente.
+- Los controladores siguen el flujo del profesor: abrir un formulario modal, setEntidad, isSaved/getEntidad y llamada al DAO para insertar o actualizar. Alerts se conserva tal como fue copiado del profesor.
+- Para probar desde cero, crear Cliente y Veterinario, luego Mascota, Cita, Consulta y Tratamiento. Seleccionar las relaciones en los ComboBox. La eliminación respeta las claves foráneas y no borra dependientes automáticamente.
+- Las operaciones hechas desde la aplicación guardan en la base configurada (por defecto C:/sqlite/db/veterinaria.db). Las pruebas automatizadas usan una base temporal con el mismo esquema.
+- Verificación: ocho pruebas de integración, incluyendo login/cierre de sesión y CRUD completo desde los botones de las siete vistas. No se insertaron registros de demostración en la base original.
+
+## Actualización del CRUD (28/10/2026)
+
+Esta sección describe el estado actual; las secciones siguientes conservan el historial de integración.
+
+- Cliente, Veterinario, Mascota, Cita, Consulta y Tratamiento usan SQL con el patrón del profesor: PreparedStatement, boolean y List. Cliente conserva el nombre agregar; los demás usan insert. Todos tienen update, delete y listAll.
+- searchById está implementado en los seis DAO; Cliente también tiene searchByDni. Las vistas incluyen Buscar y Mostrar todos (listAll). Cliente permite elegir ID o DNI; las otras cinco vistas buscan por el ID de su entidad. Los eventos de los controladores siguen pendientes.
+- Los listados tienen Nuevo arriba y Editar/Eliminar debajo de la tabla. Cita no tiene acciones de atender ni cancelar cita. El estado sigue siendo un campo del formulario y se guarda con update; no se agrega updateStatus ni validación de horarios.
+- No se implementaron controladores CRUD ni eventos de formularios. Los botones están preparados visualmente para la siguiente etapa de aprendizaje. MainControler solo perdió la referencia al módulo retirado.
+- Se retiraron Vacunación, los menús Index de consola y las clases Lectura. Se conserva VeterinariaApplication y utils/ConexionBD.java. La base de datos original y su esquema se mantienen.
+- utils/Alerts.java contiene la clase del profesor cambiando únicamente el paquete. Devuelve la alerta para que el futuro controlador invoque showAndWait().
+- TestCliente, TestVeterinario, TestMascota, TestCita, TestConsulta y TestTratamiento son pruebas manuales con insertar, update, delete y listar. Ejecutar su main desde el IDE: inicialmente solo listan. Para probar escritura, ajustar los datos e IDs y habilitar una llamada. Las relaciones necesitan IDs existentes; consulta admite una sola fila por cita.
+- Un delete de un registro con dependientes devuelve false y muestra el error de clave foránea. No se eliminan automáticamente mascotas, citas, consultas o tratamientos relacionados.
+- Usuario conserva únicamente su vista y controlador vacío; no se añadió un modelo o DAO nuevo para ese módulo.
+
+Verificación de esta actualización: Maven test pasó con 6 pruebas, 0 fallos y 0 errores. Después de restaurar las búsquedas, se verificaron también 103 comprobaciones de CRUD, búsquedas y restricciones sobre una base temporal con el esquema real, y se revisaron las vistas renderizadas. El archivo veterinaria.db y ConexionBD.java se comprobaron sin cambios.
+
 ## Ramas y alcance
 
 Trabajo realizado únicamente en `integracion`. Se completó el merge pendiente de

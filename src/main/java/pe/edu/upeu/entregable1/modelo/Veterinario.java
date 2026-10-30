@@ -6,6 +6,10 @@ public class Veterinario extends Persona {
 
     private final StringProperty especialidad = new SimpleStringProperty();
     private final StringProperty estado = new SimpleStringProperty();
+    private final IntegerProperty idveterinario = new SimpleIntegerProperty(this, "idveterinario");
+
+
+
 
     public Veterinario(int idPersona, String nombres, String apellidos, String dni,
                        int telefono, String especialidad) {
@@ -14,9 +18,11 @@ public class Veterinario extends Persona {
 
     public Veterinario() {
     }
+
     public Veterinario(int idPersona, String nombres, String apellidos, String dni,
                        String telefono, String especialidad) {
         super(idPersona, nombres, apellidos, dni, telefono);
+        setIdveterinario(idPersona);
         setEspecialidad(especialidad);
     }
 
@@ -44,14 +50,19 @@ public class Veterinario extends Persona {
         return estado;
     }
 
-    @Override
-    public void mostrarInfo(Persona p) {
-        super.mostrarInfo(p);
-        System.out.println("\nID VETERINARIO: " + p.getIdPersona()
-                + "\nNOMBRES: " + p.getNombres()
-                + "\nAPELLIDOS: " + p.getApellidos()
-                + "\nDNI: " + p.getDni()
-                + "\nTELEFONO: " + p.getTelefono());
+ public final int getIdveterinario() {
+        return idveterinario.get();
     }
 
+    public final void setIdveterinario(int value) {
+        idveterinario.set(value);
+    }
+
+    public final IntegerProperty idveterinarioProperty() {
+        return idveterinario;
+    }
+    @Override
+    public String toString() {
+        return getIdveterinario() + " - " + getNombres() + " " + getApellidos();
+    }
 }

@@ -66,4 +66,8 @@ public class Consulta {
     public final StringProperty observacionesProperty() {
         return observaciones;
     }
+    @Override
+    public String toString() {
+        return getIdConsulta() + " - " + getDiagnostico();
+    }
 }

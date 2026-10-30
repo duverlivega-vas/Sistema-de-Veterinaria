@@ -1,9 +1,12 @@
 package pe.edu.upeu.entregable1.interfaces;
 
 import pe.edu.upeu.entregable1.modelo.Cita;
+import java.util.List;
 
 public interface ICita {
-    public void agregar(Cita m);
-    public void listar();
-    public Cita buscarPorId(int id);
+    public boolean insert(Cita c);
+    public boolean update(Cita c);
+    public boolean delete(Cita c);
+    public Cita searchById(int id);
+    public List<Cita> listAll();
 }

@@ -9,22 +9,20 @@
             <children>
                 <Label layoutX="20" layoutY="20" text="SISTEMA VETERINARIO" style="-fx-font-size: 21; -fx-font-weight: bold; -fx-text-fill: white;"/>
                 <Label fx:id="lblUsuario" text="Usuario conectado" AnchorPane.rightAnchor="160" layoutY="25" style="-fx-text-fill: white;"/>
-                <Button fx:id="btnCerrarSesion" text="Cerrar sesión" AnchorPane.rightAnchor="20" layoutY="18" prefHeight="32" style="-fx-background-color: white; -fx-border-color: #0E7C86; -fx-text-fill: #0E7C86;"/>
+                <Button fx:id="btnCerrarSesion" onAction="#cerrarSesion" text="Cerrar sesión" AnchorPane.rightAnchor="20" layoutY="18" prefHeight="32" style="-fx-background-color: white; -fx-border-color: #0E7C86; -fx-text-fill: #0E7C86;"/>
             </children>
         </AnchorPane>
     </top>
     <left>
         <VBox prefWidth="180" spacing="8" style="-fx-background-color: #E7F2F4; -fx-padding: 16;" minWidth="180">
-            <Button fx:id="btnInicio" text="Inicio" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnClientes" text="Clientes" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnMascotas" text="Mascotas" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnVeterinarios" text="Veterinarios" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnCitas" text="Citas" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnConsultas" text="Consultas" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnTratamientos" text="Tratamientos" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnUsuarios" text="Usuarios" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnVacunacion" text="Vacunación" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Label text="Vacunación: módulo propuesto" wrapText="true" prefWidth="160"/>
+            <Button fx:id="btnInicio" onAction="#showHome" text="Inicio" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnClientes" onAction="#showCliente" text="Clientes" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnMascotas" onAction="#showMascota" text="Mascotas" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnVeterinarios" onAction="#showVeterinario" text="Veterinarios" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnCitas" onAction="#showCita" text="Citas" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnConsultas" onAction="#showConsulta" text="Consultas" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnTratamientos" onAction="#showTratamiento" text="Tratamientos" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+            <Button fx:id="btnUsuarios" onAction="#showUsuario" text="Usuarios" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
         </VBox>
     </left>
     <center>

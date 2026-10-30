@@ -4,13 +4,11 @@ import javafx.beans.property.*;
 
 public class Persona {
 
-    private final IntegerProperty idPersona = new SimpleIntegerProperty();
     private final StringProperty nombres = new SimpleStringProperty();
     private final StringProperty apellidos = new SimpleStringProperty();
     private final StringProperty dni = new SimpleStringProperty();
     private final StringProperty telefono = new SimpleStringProperty();
 
-    // Compatibilidad con llamadas de la versión de consola.
     public Persona(int idPersona, String nombres, String apellidos, String dni, int telefono) {
         this(idPersona, nombres, apellidos, dni, String.valueOf(telefono));
     }
@@ -23,24 +21,12 @@ public class Persona {
     }
 
     public Persona(int idPersona, String nombres, String apellidos, String dni, String telefono) {
-        setIdPersona(idPersona);
         setNombres(nombres);
         setApellidos(apellidos);
         setDni(dni);
         setTelefono(telefono);
     }
 
-    public final int getIdPersona() {
-        return idPersona.get();
-    }
-
-    public final void setIdPersona(int value) {
-        idPersona.set(value);
-    }
-
-    public final IntegerProperty idPersonaProperty() {
-        return idPersona;
-    }
 
     public final String getNombres() {
         return nombres.get();

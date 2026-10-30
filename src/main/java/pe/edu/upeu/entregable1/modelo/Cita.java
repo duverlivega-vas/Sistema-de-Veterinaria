@@ -99,4 +99,8 @@ public class Cita {
     public final StringProperty estadoProperty() {
         return estado;
     }
+    @Override
+    public String toString() {
+        return getIdCita() + " - " + getFecha() + " " + getHora() + " - " + (getMascota() == null ? "" : getMascota().getNombre());
+    }
 }

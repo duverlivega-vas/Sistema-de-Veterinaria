@@ -3,12 +3,12 @@ package pe.edu.upeu.entregable1.modelo;
 import javafx.beans.property.*;
 
 public class Cliente extends Persona {
+    private final IntegerProperty idcliente = new SimpleIntegerProperty();
 
     private final StringProperty direccion = new SimpleStringProperty();
 
     private final StringProperty estado = new SimpleStringProperty();
 
-    // Compatibilidad con el constructor anterior; el almacenamiento sigue siendo StringProperty.
     public Cliente(int idPersona, String nombres, String apellidos, String dni,
                    int telefono, String direccion) {
         this(idPersona, nombres, apellidos, dni, String.valueOf(telefono), direccion);
@@ -20,6 +20,7 @@ public class Cliente extends Persona {
     public Cliente(int idPersona, String nombres, String apellidos, String dni,
                    String telefono, String direccion) {
         super(idPersona, nombres, apellidos, dni, telefono);
+        setIdcliente(idPersona);
         setDireccion(direccion);
     }
 
@@ -46,10 +47,20 @@ public class Cliente extends Persona {
     public final StringProperty estadoProperty() {
         return estado;
     }
+     public final int getIdcliente() {
+        return idcliente.get();
+    }
+
+    public final void setIdcliente(int value) {
+        idcliente.set(value);
+    }
+
+    public final IntegerProperty idclienteProperty() {
+        return idcliente;
+    }
 
     @Override
-    public void mostrarInfo(Persona p) {
-        System.out.printf("ID: %d | %s %s | DNI: %s | Telefono: %s%n",
-                p.getIdPersona(), p.getNombres(), p.getApellidos(), p.getDni(), p.getTelefono());
+    public String toString() {
+        return getIdcliente() + " - " + getNombres() + " " + getApellidos();
     }
 }

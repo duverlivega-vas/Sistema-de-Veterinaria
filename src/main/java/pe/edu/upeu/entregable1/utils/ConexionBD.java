@@ -17,7 +17,6 @@ public static Connection getConnection(){
                st.execute("PRAGMA journal_mode = WAL;");
 
            }
-          System.out.println("conexion exitosa a la base de datos");
         }
         return connection;
     } catch (Exception e) {
