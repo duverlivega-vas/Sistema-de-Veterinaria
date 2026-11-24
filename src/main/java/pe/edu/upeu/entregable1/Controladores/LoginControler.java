@@ -1,0 +1,61 @@
+package pe.edu.upeu.entregable1.Controladores;
+
+import pe.edu.upeu.entregable1.utils.Alerts;
+import javafx.fxml.FXML;
+import pe.edu.upeu.entregable1.modelo.Usuario;
+import pe.edu.upeu.entregable1.implementacion.UsuarioImpl;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+
+public class LoginControler {
+    @FXML private TextField txtUsuario;
+    @FXML private PasswordField txtPassword;
+    @FXML private Label lblMensaje;
+
+    @FXML
+    private void handleLogin() {
+        String usuario = txtUsuario.getText().trim();
+        String password = txtPassword.getText();
+        if (usuario.isBlank() || password.isBlank()) {
+            mostrarMensaje("Ingrese usuario y contraseña", "WARNING");
+            return;
+        }
+        try {
+            boolean acceso;
+            // Se conserva el acceso fijo solicitado para la demostración.
+            if ("admin".equals(usuario)) {
+                acceso = "admin123".equals(password);
+            } else {
+                Usuario u = new UsuarioImpl().searchByUsuario(usuario);
+                acceso = u != null && password.equals(u.getPassword());
+            }
+            if (!acceso) {
+                mostrarMensaje("Usuario o contraseña incorrectos", "WARNING");
+                txtPassword.clear();
+                return;
+            }
+            Stage stage = (Stage) txtUsuario.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/pe/edu/upeu/entregable1/VIews/main-view.fxml"));
+            Parent root = loader.load();
+            MainControler controller = loader.getController();
+            controller.setUsuario(usuario);
+            stage.getScene().setRoot(root);
+            stage.setTitle("Sistema de Veterinaria - " + usuario);
+        } catch (Exception e) {
+            mostrarMensaje("No se pudo abrir el sistema: " + e.getMessage(), "ERROR");
+        }
+    }
+
+    private void mostrarMensaje(String mensaje, String tipo) {
+        lblMensaje.setText(mensaje);
+        Alert alerta = Alerts.viewAlerts("Sistema de Veterinaria", mensaje, tipo);
+        if (lblMensaje.getScene() != null && lblMensaje.getScene().getWindow() != null) {
+            alerta.initOwner(lblMensaje.getScene().getWindow());
+        }
+        alerta.getButtonTypes().setAll(ButtonType.OK);
+        alerta.showAndWait();
+    }
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<!-- Portada informativa, sin controlador ni consultas de datos. -->
+<ScrollPane fitToWidth="true" fitToHeight="true" minWidth="0" minHeight="0"
+            prefWidth="820" prefHeight="615" stylesheets="@veterinaria.css" styleClass="vet-root"
+            style="-fx-background-color: #F6FAFB; -fx-background-insets: 0;"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <content>
+        <VBox spacing="22" style="-fx-background-color: #F6FAFB;">
+            <padding><Insets top="28" right="28" bottom="24" left="28" /></padding>
+            <children>
+                <Label text="INICIO  /  GESTIÓN VETERINARIA" style="-fx-font-size: 11; -fx-font-weight: bold; -fx-text-fill: #47758A;" />
+                <HBox alignment="CENTER_LEFT" spacing="22" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 22;">
+                    <children>
+                        <VBox spacing="10" HBox.hgrow="ALWAYS" minWidth="0">
+                            <children>
+                                <Label text="Cada paciente,&#10;una atención organizada." wrapText="true"
+                                       style="-fx-font-size: 27; -fx-font-weight: bold; -fx-text-fill: #0B3557;" />
+                                <Label text="Un espacio para acompañar el cuidado de tus mascotas, desde su registro hasta el seguimiento de su atención."
+                                       wrapText="true" maxWidth="430" style="-fx-font-size: 13; -fx-text-fill: #47758A;" />
+                            </children>
+                        </VBox>
+                        <ImageView fitWidth="115" fitHeight="115" preserveRatio="true" accessibleText="Emblema de la veterinaria">
+                            <image><Image url="@../img/Emblema veterinario de gato y perro.png" /></image>
+                        </ImageView>
+                    </children>
+                </HBox>
+                <Label text="Todo comienza con una buena organización" wrapText="true"
+                       style="-fx-font-size: 17; -fx-font-weight: bold;" />
+                <GridPane hgap="18" vgap="16">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="40" prefWidth="40" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="0" />
+                    </columnConstraints>
+                    <children>
+                        <Label text="01" style="-fx-font-size: 23; -fx-text-fill: #0E7C86;" GridPane.rowIndex="0" />
+                        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <children>
+                                <Label text="Conoce a tus pacientes" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                                <Label text="Clientes y mascotas: registra propietarios y mantén sus datos relacionados." wrapText="true" style="-fx-text-fill: #47758A;" />
+                            </children>
+                        </VBox>
+                        <Label text="02" style="-fx-font-size: 23; -fx-text-fill: #0E7C86;" GridPane.rowIndex="1" />
+                        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <children>
+                                <Label text="Organiza cada visita" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                                <Label text="Citas y veterinarios: organiza las fechas de atención y el profesional a cargo." wrapText="true" style="-fx-text-fill: #47758A;" />
+                            </children>
+                        </VBox>
+                        <Label text="03" style="-fx-font-size: 23; -fx-text-fill: #0E7C86;" GridPane.rowIndex="2" />
+                        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <children>
+                                <Label text="Da continuidad al cuidado" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                                <Label text="Consultas y tratamientos: registra diagnósticos, observaciones e indicaciones." wrapText="true" style="-fx-text-fill: #47758A;" />
+                            </children>
+                        </VBox>
+                    </children>
+                </GridPane>
+                <Separator />
+                <Label text="Selecciona un módulo del menú lateral para comenzar." wrapText="true"
+                       style="-fx-font-size: 12; -fx-text-fill: #0E7C86;" />
+            </children>
+        </VBox>
+    </content>
+</ScrollPane>

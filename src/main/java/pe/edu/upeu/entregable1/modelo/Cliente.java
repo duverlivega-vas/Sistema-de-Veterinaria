@@ -1,28 +1,66 @@
 package pe.edu.upeu.entregable1.modelo;
 
+import javafx.beans.property.*;
+
 public class Cliente extends Persona {
-    private String direccion;
+    private final IntegerProperty idcliente = new SimpleIntegerProperty();
+
+    private final StringProperty direccion = new SimpleStringProperty();
+
+    private final StringProperty estado = new SimpleStringProperty();
+
+    public Cliente(int idPersona, String nombres, String apellidos, String dni,
+                   int telefono, String direccion) {
+        this(idPersona, nombres, apellidos, dni, String.valueOf(telefono), direccion);
+    }
 
     public Cliente() {
     }
 
     public Cliente(int idPersona, String nombres, String apellidos, String dni,
-                   int telefono, String direccion) {
+                   String telefono, String direccion) {
         super(idPersona, nombres, apellidos, dni, telefono);
-        this.direccion = direccion;
+        setIdcliente(idPersona);
+        setDireccion(direccion);
     }
 
-    public String getDireccion() {
+    public final String getDireccion() {
+        return direccion.get();
+    }
+
+    public final void setDireccion(String value) {
+        direccion.set(value);
+    }
+
+    public final StringProperty direccionProperty() {
         return direccion;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public final String getEstado() {
+        return estado.get();
+    }
+
+    public final void setEstado(String value) {
+        estado.set(value);
+    }
+
+    public final StringProperty estadoProperty() {
+        return estado;
+    }
+     public final int getIdcliente() {
+        return idcliente.get();
+    }
+
+    public final void setIdcliente(int value) {
+        idcliente.set(value);
+    }
+
+    public final IntegerProperty idclienteProperty() {
+        return idcliente;
     }
 
     @Override
-    public void mostrarInfo(Persona p) {
-        System.out.printf("ID: %d | %s %s | DNI: %s | Telefono: %d%n",
-                p.getIdPersona(), p.getNombres(), p.getApellidos(), p.getDni(), p.getTelefono());
+    public String toString() {
+        return getIdcliente() + " - " + getNombres() + " " + getApellidos();
     }
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+
+<GridPane fx:controller="pe.edu.upeu.entregable1.Controladores.ConsultaFormControler" hgap="12" minWidth="380" prefHeight="417" prefWidth="380" style="-fx-background-color: #F6FAFB;" styleClass="vet-root" stylesheets="@veterinaria.css" vgap="12" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets bottom="24" left="24" right="24" top="24" />
+    </padding>
+    <columnConstraints>
+        <ColumnConstraints hgrow="NEVER" percentWidth="35" />
+        <ColumnConstraints hgrow="ALWAYS" percentWidth="65" />
+    </columnConstraints>
+    <children>
+        <Label fx:id="lblTitulo" minWidth="0" style="-fx-font-size: 23; -fx-font-weight: bold; -fx-text-fill: #0B3557;" text="Datos de consulta" wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+        <Label minWidth="0" style="" text="Cita" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <ComboBox fx:id="cmbCita" maxWidth="Infinity" minWidth="0" prefHeight="30" prefWidth="41.0" promptText="Seleccionar" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+        <Label minWidth="0" style="" text="Diagnóstico" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <TextArea fx:id="txtDiagnostico" maxWidth="Infinity" minWidth="0" prefHeight="70" prefWidth="200" wrapText="true" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+        <Label minWidth="0" style="" text="Observaciones" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <TextArea fx:id="txtObservaciones" maxWidth="Infinity" minWidth="0" prefHeight="70" prefWidth="200" wrapText="true" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+        <HBox alignment="CENTER_RIGHT" spacing="12" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="4">
+            <Button fx:id="btnGuardar" onAction="#handleSaved" defaultButton="true" prefHeight="34" prefWidth="110" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" text="Guardar" />
+            <Button fx:id="btnCancelarEdicion" onAction="#handleCancel" cancelButton="true" prefHeight="34" prefWidth="110" style="-fx-background-color: white; -fx-border-color: #0E7C86; -fx-text-fill: #0E7C86;" text="Cancelar" />
+        </HBox>
+        <Label fx:id="lblMensaje" wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="5"/>
+    </children>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+</GridPane>
