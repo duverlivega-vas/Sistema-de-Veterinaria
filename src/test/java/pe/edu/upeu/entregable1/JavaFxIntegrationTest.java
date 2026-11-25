@@ -217,13 +217,22 @@ class JavaFxIntegrationTest {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/pe/edu/upeu/entregable1/VIews/cliente-vista.fxml"));
                     stage.setScene(new Scene(loader.load(), 820, 615)); stage.show();
                     TableView<?> table = (TableView<?>)loader.getNamespace().get("tblClientes");
+                    TableColumn<?, ?> id = (TableColumn<?, ?>)loader.getNamespace().get("colId");
+                    assertNotNull(id, "La columna ID se conserva");
+                    assertFalse(id.isVisible(), "La columna ID debe estar oculta");
+                    TableColumn<?, ?> numero = (TableColumn<?, ?>)loader.getNamespace().get("colNumero");
+                    assertNotNull(numero);
+                    assertTrue(numero.isVisible());
+                    assertEquals("N°", numero.getText());
+                    assertFalse(numero.isSortable());
+                    assertEquals(numero, table.getVisibleLeafColumn(0));
                     assertEquals(0, table.getItems().size());
                     dialogAction(stage, (Button)loader.getNamespace().get("btnNuevo"), form -> {
                         click(form, "btnGuardar");
                         assertTrue(form.isShowing(), "No guardar campos vacíos");
                         text(form, "txtNombres", "Ana");
                         text(form, "txtApellidos", "Vega");
-                        text(form, "txtDni", "12345678");
+                        text(form, "txtDni", "01234567");
                         text(form, "txtTelefono", "012345678");
                         text(form, "txtDireccion", "Lima");
                         ((ComboBox<?>)form.getScene().lookup("#cmbEstado")).getSelectionModel().selectFirst();
@@ -237,16 +246,15 @@ class JavaFxIntegrationTest {
                         click(form, "btnGuardar");
                     });
                     assertEquals(1, table.getItems().size());
-                    text(stage, "txtBuscar", String.valueOf(table.getColumns().getFirst().getCellData(0))); click(stage, "btnBuscar");
-                    assertEquals(1, table.getItems().size(), "Buscar ID");
+                    assertEquals("Buscar por DNI", ((TextField)loader.getNamespace().get("txtBuscar")).getPromptText());
+                    assertNull(loader.getNamespace().get("cmbCriterioBusqueda"));
+                    text(stage, "txtBuscar", "01234567"); click(stage, "btnBuscar");
+                    assertEquals(1, table.getItems().size(), "Buscar DNI");
                     assertTrue(table.getColumns().stream().anyMatch(col ->
                             "Maria".equals(col.getCellData(0))), "Edición persistida");
-                    ((ComboBox<String>)loader.getNamespace().get("cmbCriterioBusqueda")).setValue("DNI");
-                    text(stage, "txtBuscar", "12345678"); click(stage, "btnBuscar");
-                    assertEquals(1, table.getItems().size(), "Buscar DNI");
-                    ((ComboBox<String>)loader.getNamespace().get("cmbCriterioBusqueda")).setValue("ID");
-                    text(stage, "txtBuscar", "99999"); click(stage, "btnBuscar");
+                    text(stage, "txtBuscar", "99999999"); click(stage, "btnBuscar");
                     assertEquals(0, table.getItems().size());
+                    assertTrue(avisos.contains("No se encontró ningún cliente con ese DNI"));
                     click(stage, "btnMostrarTodos");
                     assertEquals(1, table.getItems().size(), "Mostrar todos");
                     dialogAction(stage, (Button)loader.getNamespace().get("btnNuevo"), form -> click(form, "btnCancelarEdicion"));
@@ -256,13 +264,22 @@ class JavaFxIntegrationTest {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/pe/edu/upeu/entregable1/VIews/veterinario-view.fxml"));
                     stage.setScene(new Scene(loader.load(), 820, 615)); stage.show();
                     TableView<?> table = (TableView<?>)loader.getNamespace().get("tblVeterinarios");
+                    TableColumn<?, ?> id = (TableColumn<?, ?>)loader.getNamespace().get("colId");
+                    assertNotNull(id, "La columna ID se conserva");
+                    assertFalse(id.isVisible(), "La columna ID debe estar oculta");
+                    TableColumn<?, ?> numero = (TableColumn<?, ?>)loader.getNamespace().get("colNumero");
+                    assertNotNull(numero);
+                    assertTrue(numero.isVisible());
+                    assertEquals("N°", numero.getText());
+                    assertFalse(numero.isSortable());
+                    assertEquals(numero, table.getVisibleLeafColumn(0));
                     assertEquals(0, table.getItems().size());
                     dialogAction(stage, (Button)loader.getNamespace().get("btnNuevo"), form -> {
                         click(form, "btnGuardar");
                         assertTrue(form.isShowing(), "No guardar campos vacíos");
                         text(form, "txtNombres", "Luis");
                         text(form, "txtApellidos", "Perez");
-                        text(form, "txtDni", "23456789");
+                        text(form, "txtDni", "02345678");
                         text(form, "txtTelefono", "987654321");
                         text(form, "txtEspecialidad", "General");
                         ((ComboBox<?>)form.getScene().lookup("#cmbEstado")).getSelectionModel().selectFirst();
@@ -276,12 +293,14 @@ class JavaFxIntegrationTest {
                         click(form, "btnGuardar");
                     });
                     assertEquals(1, table.getItems().size());
-                    text(stage, "txtBuscar", String.valueOf(table.getColumns().getFirst().getCellData(0))); click(stage, "btnBuscar");
-                    assertEquals(1, table.getItems().size(), "Buscar ID");
+                    assertEquals("Buscar por DNI", ((TextField)loader.getNamespace().get("txtBuscar")).getPromptText());
+                    text(stage, "txtBuscar", "02345678"); click(stage, "btnBuscar");
+                    assertEquals(1, table.getItems().size(), "Buscar DNI");
                     assertTrue(table.getColumns().stream().anyMatch(col ->
                             "Cirugia".equals(col.getCellData(0))), "Edición persistida");
-                    text(stage, "txtBuscar", "99999"); click(stage, "btnBuscar");
+                    text(stage, "txtBuscar", "99999999"); click(stage, "btnBuscar");
                     assertEquals(0, table.getItems().size());
+                    assertTrue(avisos.contains("No se encontró ningún veterinario con ese DNI"));
                     click(stage, "btnMostrarTodos");
                     assertEquals(1, table.getItems().size(), "Mostrar todos");
                     dialogAction(stage, (Button)loader.getNamespace().get("btnNuevo"), form -> click(form, "btnCancelarEdicion"));
@@ -291,6 +310,15 @@ class JavaFxIntegrationTest {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/pe/edu/upeu/entregable1/VIews/mascota-view.fxml"));
                     stage.setScene(new Scene(loader.load(), 820, 615)); stage.show();
                     TableView<?> table = (TableView<?>)loader.getNamespace().get("tblMascotas");
+                    TableColumn<?, ?> id = (TableColumn<?, ?>)loader.getNamespace().get("colId");
+                    assertNotNull(id, "La columna ID se conserva");
+                    assertFalse(id.isVisible(), "La columna ID debe estar oculta");
+                    TableColumn<?, ?> numero = (TableColumn<?, ?>)loader.getNamespace().get("colNumero");
+                    assertNotNull(numero);
+                    assertTrue(numero.isVisible());
+                    assertEquals("N°", numero.getText());
+                    assertFalse(numero.isSortable());
+                    assertEquals(numero, table.getVisibleLeafColumn(0));
                     assertEquals(0, table.getItems().size());
                     dialogAction(stage, (Button)loader.getNamespace().get("btnNuevo"), form -> {
                         click(form, "btnGuardar");
@@ -312,12 +340,18 @@ class JavaFxIntegrationTest {
                         click(form, "btnGuardar");
                     });
                     assertEquals(1, table.getItems().size());
-                    text(stage, "txtBuscar", String.valueOf(table.getColumns().getFirst().getCellData(0))); click(stage, "btnBuscar");
-                    assertEquals(1, table.getItems().size(), "Buscar ID");
+                    assertEquals("Buscar por DNI del propietario", ((TextField)loader.getNamespace().get("txtBuscar")).getPromptText());
+                    text(stage, "txtBuscar", ""); click(stage, "btnBuscar");
+                    assertTrue(avisos.contains("Ingrese el DNI del propietario para buscar"));
+                    text(stage, "txtBuscar", "ABC12345"); click(stage, "btnBuscar");
+                    assertTrue(avisos.contains("El DNI debe tener 8 dígitos numéricos"));
+                    text(stage, "txtBuscar", "01234567"); click(stage, "btnBuscar");
+                    assertEquals(1, table.getItems().size(), "Buscar DNI del propietario");
                     assertTrue(table.getColumns().stream().anyMatch(col ->
                             "Luna dos".equals(col.getCellData(0))), "Edición persistida");
-                    text(stage, "txtBuscar", "99999"); click(stage, "btnBuscar");
+                    text(stage, "txtBuscar", "99999999"); click(stage, "btnBuscar");
                     assertEquals(0, table.getItems().size());
+                    assertTrue(avisos.contains("No se encontraron mascotas con ese DNI del propietario"));
                     click(stage, "btnMostrarTodos");
                     assertEquals(1, table.getItems().size(), "Mostrar todos");
                     dialogAction(stage, (Button)loader.getNamespace().get("btnNuevo"), form -> click(form, "btnCancelarEdicion"));
@@ -327,6 +361,15 @@ class JavaFxIntegrationTest {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/pe/edu/upeu/entregable1/VIews/cita-view.fxml"));
                     stage.setScene(new Scene(loader.load(), 820, 615)); stage.show();
                     TableView<?> table = (TableView<?>)loader.getNamespace().get("tblCitas");
+                    TableColumn<?, ?> id = (TableColumn<?, ?>)loader.getNamespace().get("colId");
+                    assertNotNull(id, "La columna ID se conserva");
+                    assertFalse(id.isVisible(), "La columna ID debe estar oculta");
+                    TableColumn<?, ?> numero = (TableColumn<?, ?>)loader.getNamespace().get("colNumero");
+                    assertNotNull(numero);
+                    assertTrue(numero.isVisible());
+                    assertEquals("N°", numero.getText());
+                    assertFalse(numero.isSortable());
+                    assertEquals(numero, table.getVisibleLeafColumn(0));
                     assertEquals(0, table.getItems().size());
                     dialogAction(stage, (Button)loader.getNamespace().get("btnNuevo"), form -> {
                         click(form, "btnGuardar");
@@ -349,12 +392,10 @@ class JavaFxIntegrationTest {
                         click(form, "btnGuardar");
                     });
                     assertEquals(1, table.getItems().size());
-                    text(stage, "txtBuscar", String.valueOf(table.getColumns().getFirst().getCellData(0))); click(stage, "btnBuscar");
-                    assertEquals(1, table.getItems().size(), "Buscar ID");
+                    assertNull(loader.getNamespace().get("txtBuscar"));
+                    assertNull(loader.getNamespace().get("btnBuscar"));
                     assertTrue(table.getColumns().stream().anyMatch(col ->
                             "Control anual".equals(col.getCellData(0))), "Edición persistida");
-                    text(stage, "txtBuscar", "99999"); click(stage, "btnBuscar");
-                    assertEquals(0, table.getItems().size());
                     click(stage, "btnMostrarTodos");
                     assertEquals(1, table.getItems().size(), "Mostrar todos");
                     dialogAction(stage, (Button)loader.getNamespace().get("btnNuevo"), form -> click(form, "btnCancelarEdicion"));
@@ -364,6 +405,15 @@ class JavaFxIntegrationTest {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/pe/edu/upeu/entregable1/VIews/consulta-view.fxml"));
                     stage.setScene(new Scene(loader.load(), 820, 615)); stage.show();
                     TableView<?> table = (TableView<?>)loader.getNamespace().get("tblConsultas");
+                    TableColumn<?, ?> id = (TableColumn<?, ?>)loader.getNamespace().get("colId");
+                    assertNotNull(id, "La columna ID se conserva");
+                    assertFalse(id.isVisible(), "La columna ID debe estar oculta");
+                    TableColumn<?, ?> numero = (TableColumn<?, ?>)loader.getNamespace().get("colNumero");
+                    assertNotNull(numero);
+                    assertTrue(numero.isVisible());
+                    assertEquals("N°", numero.getText());
+                    assertFalse(numero.isSortable());
+                    assertEquals(numero, table.getVisibleLeafColumn(0));
                     assertEquals(0, table.getItems().size());
                     dialogAction(stage, (Button)loader.getNamespace().get("btnNuevo"), form -> {
                         click(form, "btnGuardar");
@@ -381,12 +431,10 @@ class JavaFxIntegrationTest {
                         click(form, "btnGuardar");
                     });
                     assertEquals(1, table.getItems().size());
-                    text(stage, "txtBuscar", String.valueOf(table.getColumns().getFirst().getCellData(0))); click(stage, "btnBuscar");
-                    assertEquals(1, table.getItems().size(), "Buscar ID");
+                    assertNull(loader.getNamespace().get("txtBuscar"));
+                    assertNull(loader.getNamespace().get("btnBuscar"));
                     assertTrue(table.getColumns().stream().anyMatch(col ->
                             "Revision completa".equals(col.getCellData(0))), "Edición persistida");
-                    text(stage, "txtBuscar", "99999"); click(stage, "btnBuscar");
-                    assertEquals(0, table.getItems().size());
                     click(stage, "btnMostrarTodos");
                     assertEquals(1, table.getItems().size(), "Mostrar todos");
                     dialogAction(stage, (Button)loader.getNamespace().get("btnNuevo"), form -> click(form, "btnCancelarEdicion"));
@@ -429,6 +477,15 @@ class JavaFxIntegrationTest {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/pe/edu/upeu/entregable1/VIews/usuario-view.fxml"));
                     stage.setScene(new Scene(loader.load(), 820, 615)); stage.show();
                     TableView<?> table = (TableView<?>)loader.getNamespace().get("tblUsuarios");
+                    TableColumn<?, ?> id = (TableColumn<?, ?>)loader.getNamespace().get("colId");
+                    assertNotNull(id, "La columna ID se conserva");
+                    assertFalse(id.isVisible(), "La columna ID debe estar oculta");
+                    TableColumn<?, ?> numero = (TableColumn<?, ?>)loader.getNamespace().get("colNumero");
+                    assertNotNull(numero);
+                    assertTrue(numero.isVisible());
+                    assertEquals("N°", numero.getText());
+                    assertFalse(numero.isSortable());
+                    assertEquals(numero, table.getVisibleLeafColumn(0));
                     assertEquals(0, table.getItems().size());
                     dialogAction(stage, (Button)loader.getNamespace().get("btnNuevo"), form -> {
                         click(form, "btnGuardar");
@@ -437,7 +494,7 @@ class JavaFxIntegrationTest {
                         text(form, "txtPassword", "clavePrueba");
                         text(form, "txtNombres", "Juan");
                         text(form, "txtApellidos", "Perez");
-                        text(form, "txtDni", "34567890");
+                        text(form, "txtDni", "03456789");
                         ((ComboBox<?>)form.getScene().lookup("#cmbTipoUser")).getSelectionModel().selectFirst();
                         click(form, "btnGuardar");
                     });
@@ -449,12 +506,15 @@ class JavaFxIntegrationTest {
                         click(form, "btnGuardar");
                     });
                     assertEquals(1, table.getItems().size());
-                    text(stage, "txtBuscar", String.valueOf(table.getColumns().getFirst().getCellData(0))); click(stage, "btnBuscar");
-                    assertEquals(1, table.getItems().size(), "Buscar ID");
+                    assertEquals("Buscar por DNI", ((TextField)loader.getNamespace().get("txtBuscar")).getPromptText());
+                    text(stage, "txtBuscar", "03456789"); click(stage, "btnBuscar");
+                    assertEquals(1, table.getItems().size(), "Buscar DNI");
+                    assertEquals("03456789", ((TableColumn<?, ?>)loader.getNamespace().get("colDni")).getCellData(0));
                     assertTrue(table.getColumns().stream().anyMatch(col ->
                             "Juan dos".equals(col.getCellData(0))), "Edición persistida");
-                    text(stage, "txtBuscar", "99999"); click(stage, "btnBuscar");
+                    text(stage, "txtBuscar", "99999999"); click(stage, "btnBuscar");
                     assertEquals(0, table.getItems().size());
+                    assertTrue(avisos.contains("No se encontró ningún usuario con ese DNI"));
                     click(stage, "btnMostrarTodos");
                     assertEquals(1, table.getItems().size(), "Mostrar todos");
                     dialogAction(stage, (Button)loader.getNamespace().get("btnNuevo"), form -> click(form, "btnCancelarEdicion"));
@@ -581,7 +641,7 @@ class JavaFxIntegrationTest {
         });
     }
 
-    @Test void missingSelectionAndInvalidIdShowAlerts() throws Exception {
+    @Test void missingSelectionAndInvalidDniShowAlerts() throws Exception {
         onFx(() -> {
             Stage stage = new Stage();
             try {
@@ -591,8 +651,19 @@ class JavaFxIntegrationTest {
                 assertTrue(avisos.contains("Seleccione un registro para editar"));
                 click(stage, "btnEliminar");
                 assertTrue(avisos.contains("Seleccione un registro para eliminar"));
-                text(stage, "txtBuscar", "abc"); click(stage, "btnBuscar");
-                assertTrue(avisos.contains("Ingrese un ID numérico válido"));
+                for (String vista : new String[]{"cliente-vista.fxml", "veterinario-view.fxml", "usuario-view.fxml"}) {
+                    Parent vistaDni = FXMLLoader.load(getClass().getResource("/pe/edu/upeu/entregable1/VIews/" + vista));
+                    stage.setScene(new Scene(vistaDni));
+                    avisos.clear();
+                    text(stage, "txtBuscar", " "); click(stage, "btnBuscar");
+                    assertTrue(avisos.contains("Ingrese un DNI para buscar"));
+                    avisos.clear();
+                    text(stage, "txtBuscar", "abc"); click(stage, "btnBuscar");
+                    assertTrue(avisos.contains("El DNI debe tener 8 dígitos numéricos"));
+                    avisos.clear();
+                    text(stage, "txtBuscar", "1234567"); click(stage, "btnBuscar");
+                    assertTrue(avisos.contains("El DNI debe tener 8 dígitos numéricos"));
+                }
             } finally { stage.close(); }
             return null;
         });

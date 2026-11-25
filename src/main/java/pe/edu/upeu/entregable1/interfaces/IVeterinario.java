@@ -8,5 +8,6 @@ public interface IVeterinario {
     public boolean update(Veterinario v);
     public boolean delete(Veterinario v);
     public Veterinario searchById(int id);
+    public Veterinario searchByDni(String dni);
     public List<Veterinario> listAll();
 }

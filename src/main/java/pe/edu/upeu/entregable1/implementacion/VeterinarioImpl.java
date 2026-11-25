@@ -91,6 +91,31 @@ public class VeterinarioImpl implements IVeterinario {
     }
 
     @Override
+    public Veterinario searchByDni(String dni) {
+        Veterinario v = null;
+        String query = "SELECT * FROM veterinario WHERE dni=?";
+        try (Connection cn = ConexionBD.getConnection();
+             PreparedStatement st = cn.prepareStatement(query)) {
+            st.setString(1, dni);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    v = new Veterinario();
+                    v.setIdveterinario(rs.getInt("idveterinario"));
+                    v.setNombres(rs.getString("nombres"));
+                    v.setApellidos(rs.getString("apellidos"));
+                    v.setDni(rs.getString("dni"));
+                    v.setTelefono(rs.getString("telefono"));
+                    v.setEspecialidad(rs.getString("especialidad"));
+                    v.setEstado(rs.getString("estado"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al buscar veterinario: " + e.getMessage(), e);
+        }
+        return v;
+    }
+
+    @Override
     public List<Veterinario> listAll() {
         List<Veterinario> lista = new ArrayList<>();
         String query = "SELECT * FROM veterinario";
