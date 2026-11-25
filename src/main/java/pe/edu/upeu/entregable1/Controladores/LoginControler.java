@@ -1,13 +1,15 @@
 package pe.edu.upeu.entregable1.Controladores;
 
-import pe.edu.upeu.entregable1.utils.Alerts;
+import java.io.IOException;
 import javafx.fxml.FXML;
-import pe.edu.upeu.entregable1.modelo.Usuario;
-import pe.edu.upeu.entregable1.implementacion.UsuarioImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import pe.edu.upeu.entregable1.implementacion.UsuarioImpl;
+import pe.edu.upeu.entregable1.modelo.Usuario;
+import pe.edu.upeu.entregable1.utils.Alerts;
 
 public class LoginControler {
     @FXML private TextField txtUsuario;
@@ -24,41 +26,55 @@ public class LoginControler {
             return;
         }
 
-        Usuario u;
+        Usuario usuarioEncontrado;
+
         try {
-            u = new UsuarioImpl().searchByUsuario(usuario);
+            usuarioEncontrado = new UsuarioImpl().searchByUsuario(usuario);
         } catch (RuntimeException e) {
             mostrarMensaje("Error de conexión con la base de datos", "ERROR");
             return;
         }
 
-        if (u == null || !password.equals(u.getPassword())) {
+        if (usuarioEncontrado == null
+                || !password.equals(usuarioEncontrado.getPassword())) {
             mostrarMensaje("Usuario o contraseña incorrectos", "WARNING");
             txtPassword.clear();
             return;
         }
 
-
         try {
-            Stage stage = (Stage) txtUsuario.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/pe/edu/upeu/entregable1/VIews/main-view.fxml"));
+
             Parent root = loader.load();
+
             MainControler controller = loader.getController();
             controller.setUsuario(usuario);
-            stage.getScene().setRoot(root);
+
+            Stage stage = (Stage) txtUsuario.getScene().getWindow();
+            stage.setScene(new Scene(root));
             stage.setTitle("Sistema de Veterinaria - " + usuario);
-        } catch (Exception e) {
-            mostrarMensaje("No se pudo abrir el sistema: " + e.getMessage(), "ERROR");
+            stage.show();
+
+        } catch (IOException e) {
+            mostrarMensaje("No se pudo abrir la pantalla principal", "ERROR");
         }
     }
 
     private void mostrarMensaje(String mensaje, String tipo) {
         lblMensaje.setText(mensaje);
-        Alert alerta = Alerts.viewAlerts("Sistema de Veterinaria", mensaje, tipo);
-        if (lblMensaje.getScene() != null && lblMensaje.getScene().getWindow() != null) {
+
+        Alert alerta = Alerts.viewAlerts(
+                "Sistema de Veterinaria",
+                mensaje,
+                tipo
+        );
+
+        if (lblMensaje.getScene() != null
+                && lblMensaje.getScene().getWindow() != null) {
             alerta.initOwner(lblMensaje.getScene().getWindow());
         }
+
         alerta.getButtonTypes().setAll(ButtonType.OK);
         alerta.showAndWait();
     }
