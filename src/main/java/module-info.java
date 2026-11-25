@@ -10,6 +10,8 @@ module pe.edu.upeu.entregable1 {
     requires java.sql;
     requires org.xerial.sqlitejdbc;
 
+    requires com.github.librepdf.openpdf;
+
 
     opens pe.edu.upeu.entregable1 to javafx.fxml;
     opens pe.edu.upeu.entregable1.Controladores to javafx.fxml;

@@ -8,5 +8,6 @@ public interface ITratamiento {
     public boolean update(Tratamiento t);
     public boolean delete(Tratamiento t);
     public Tratamiento searchById(int id);
+    public List<Tratamiento> searchByNombreMascota(String nombre);
     public List<Tratamiento> listAll();
 }
