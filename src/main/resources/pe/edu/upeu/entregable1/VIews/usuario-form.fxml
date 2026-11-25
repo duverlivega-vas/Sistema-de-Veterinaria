@@ -20,11 +20,19 @@
         <Label text="Contraseña" style="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="2" minWidth="0"/>
         <PasswordField fx:id="txtPassword" prefWidth="200" prefHeight="30" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="2" minWidth="0"/>
         <Label text="Tipo de usuario" style="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="3" minWidth="0"/>
-        <ComboBox fx:id="cmbTipoUser" prefWidth="200" prefHeight="30" promptText="Seleccionar" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="3" minWidth="0">
+        <ComboBox fx:id="cmbTipoUser"
+                  prefWidth="200"
+                  prefHeight="30"
+                  promptText="Seleccionar"
+                  maxWidth="Infinity"
+                  GridPane.hgrow="ALWAYS"
+                  GridPane.columnIndex="1"
+                  GridPane.rowIndex="3"
+                  minWidth="0">
             <items>
                 <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Administrador"/>
-                    <String fx:value="Recepcionista"/>
+                    <String fx:value="ADMIN"/>
+                    <String fx:value="EMPLEADO"/>
                 </FXCollections>
             </items>
         </ComboBox>
