@@ -18,6 +18,7 @@ public class VeterinarioControler {
     @FXML private TableView<Veterinario> tblVeterinarios;
     @FXML private TextField txtBuscar;
     @FXML private Label lblMensaje;
+    @FXML private TableColumn<Veterinario, Number> colNumero;
     @FXML private TableColumn<Veterinario, Integer> colId;
     @FXML private TableColumn<Veterinario, String> colNombres;
     @FXML private TableColumn<Veterinario, String> colApellidos;
@@ -30,6 +31,17 @@ public class VeterinarioControler {
 
     @FXML
     public void initialize() {
+        colNumero.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Number item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(String.valueOf(getIndex() + 1));
+                }
+            }
+        });
         colId.setCellValueFactory(column -> column.getValue().idveterinarioProperty().asObject());
         colNombres.setCellValueFactory(column -> column.getValue().nombresProperty());
         colApellidos.setCellValueFactory(column -> column.getValue().apellidosProperty());
@@ -59,19 +71,24 @@ public class VeterinarioControler {
 
     @FXML
     private void handleSearch() {
-        if (txtBuscar.getText().isBlank()) {
-            handleListAll();
+        String dni = txtBuscar.getText().trim();
+        if (dni.isEmpty()) {
+            mostrarMensaje("Ingrese un DNI para buscar", "WARNING");
+            return;
+        }
+        if (!dni.matches("[0-9]{8}")) {
+            mostrarMensaje("El DNI debe tener 8 dígitos numéricos", "WARNING");
             return;
         }
         try {
-            Veterinario v;
-            v = veterinarioDao.searchById(Integer.parseInt(txtBuscar.getText().trim()));
+            Veterinario v = veterinarioDao.searchByDni(dni);
             tblVeterinarios.getItems().clear();
-            if (v != null) tblVeterinarios.getItems().add(v);
-            if (v == null) mostrarMensaje("No se encontraron registros", "WARNING");
-            else lblMensaje.setText("");
-        } catch (NumberFormatException e) {
-            mostrarMensaje("Ingrese un ID numérico válido", "WARNING");
+            if (v == null) {
+                mostrarMensaje("No se encontró ningún veterinario con ese DNI", "WARNING");
+            } else {
+                tblVeterinarios.getItems().add(v);
+                lblMensaje.setText("");
+            }
         } catch (Exception e) {
             mostrarMensaje("Error al buscar: " + e.getMessage(), "ERROR");
         }

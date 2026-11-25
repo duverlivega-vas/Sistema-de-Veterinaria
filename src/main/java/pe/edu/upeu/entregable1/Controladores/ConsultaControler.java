@@ -1,6 +1,7 @@
 package pe.edu.upeu.entregable1.Controladores;
 
 import javafx.fxml.*;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.util.Optional;
@@ -16,10 +17,10 @@ import pe.edu.upeu.entregable1.utils.Alerts;
 
 public class ConsultaControler {
     @FXML private TableView<Consulta> tblConsultas;
-    @FXML private TextField txtBuscar;
     @FXML private Label lblMensaje;
+    @FXML private TableColumn<Consulta, Number> colNumero;
     @FXML private TableColumn<Consulta, Integer> colId;
-    @FXML private TableColumn<Consulta, Integer> colCita;
+    @FXML private TableColumn<Consulta, String> colCita;
     @FXML private TableColumn<Consulta, String> colMascota;
     @FXML private TableColumn<Consulta, String> colDiagnostico;
     @FXML private TableColumn<Consulta, String> colObservaciones;
@@ -28,12 +29,22 @@ public class ConsultaControler {
 
     @FXML
     public void initialize() {
+        colNumero.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Number item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(String.valueOf(getIndex() + 1));
+                }
+            }
+        });
         colId.setCellValueFactory(column -> column.getValue().idConsultaProperty().asObject());
-        colCita.setCellValueFactory(column -> column.getValue().getCita().idCitaProperty().asObject());
+        colCita.setCellValueFactory(column -> new SimpleStringProperty(column.getValue().getCita().getFecha() + " " + column.getValue().getCita().getHora()));
         colMascota.setCellValueFactory(column -> column.getValue().getCita().getMascota().nombreProperty());
         colDiagnostico.setCellValueFactory(column -> column.getValue().diagnosticoProperty());
         colObservaciones.setCellValueFactory(column -> column.getValue().observacionesProperty());
-        txtBuscar.setOnAction(e -> handleSearch());
         cargardatos();
     }
 
@@ -48,29 +59,8 @@ public class ConsultaControler {
 
     @FXML
     private void handleListAll() {
-        txtBuscar.clear();
         lblMensaje.setText("");
         cargardatos();
-    }
-
-    @FXML
-    private void handleSearch() {
-        if (txtBuscar.getText().isBlank()) {
-            handleListAll();
-            return;
-        }
-        try {
-            Consulta c;
-            c = consultaDao.searchById(Integer.parseInt(txtBuscar.getText().trim()));
-            tblConsultas.getItems().clear();
-            if (c != null) tblConsultas.getItems().add(c);
-            if (c == null) mostrarMensaje("No se encontraron registros", "WARNING");
-            else lblMensaje.setText("");
-        } catch (NumberFormatException e) {
-            mostrarMensaje("Ingrese un ID numérico válido", "WARNING");
-        } catch (Exception e) {
-            mostrarMensaje("Error al buscar: " + e.getMessage(), "ERROR");
-        }
     }
 
     @FXML

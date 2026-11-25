@@ -93,6 +93,36 @@ public class MascotaImpl implements IMascota {
     }
 
     @Override
+    public List<Mascota> searchByDni(String dni) {
+        List<Mascota> lista = new ArrayList<>();
+        String query = "SELECT m.*, c.nombres, c.apellidos, c.dni FROM mascota m, cliente c WHERE m.clienteId=c.idcliente AND c.dni=?";
+        try (Connection cn = ConexionBD.getConnection();
+             PreparedStatement st = cn.prepareStatement(query)) {
+            st.setString(1, dni);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    Mascota m = new Mascota();
+                    m.setIdMascota(rs.getInt("idmascota"));
+                    m.setNombre(rs.getString("nombre"));
+                    m.setEspecie(rs.getString("especie"));
+                    m.setRaza(rs.getString("raza"));
+                    m.setEstado(rs.getString("estado"));
+                    Cliente cl = new Cliente();
+                    cl.setIdcliente(rs.getInt("clienteId"));
+                    cl.setNombres(rs.getString("nombres"));
+                    cl.setApellidos(rs.getString("apellidos"));
+                    cl.setDni(rs.getString("dni"));
+                    m.setCliente(cl);
+                    lista.add(m);
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al buscar mascotas por DNI: " + e.getMessage(), e);
+        }
+        return lista;
+    }
+
+    @Override
     public List<Mascota> listAll() {
         List<Mascota> lista = new ArrayList<>();
         String query = "SELECT m.*, c.nombres, c.apellidos, c.dni FROM mascota m, cliente c WHERE m.clienteId=c.idcliente";

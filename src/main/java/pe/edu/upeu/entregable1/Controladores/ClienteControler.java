@@ -18,7 +18,7 @@ public class ClienteControler {
     @FXML private TableView<Cliente> tblClientes;
     @FXML private TextField txtBuscar;
     @FXML private Label lblMensaje;
-    @FXML private ComboBox<String> cmbCriterioBusqueda;
+    @FXML private TableColumn<Cliente, Number> colNumero;
     @FXML private TableColumn<Cliente, Integer> colId;
     @FXML private TableColumn<Cliente, String> colNombres;
     @FXML private TableColumn<Cliente, String> colApellidos;
@@ -31,6 +31,17 @@ public class ClienteControler {
 
     @FXML
     public void initialize() {
+        colNumero.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Number item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(String.valueOf(getIndex() + 1));
+                }
+            }
+        });
         colId.setCellValueFactory(column -> column.getValue().idclienteProperty().asObject());
         colNombres.setCellValueFactory(column -> column.getValue().nombresProperty());
         colApellidos.setCellValueFactory(column -> column.getValue().apellidosProperty());
@@ -60,23 +71,24 @@ public class ClienteControler {
 
     @FXML
     private void handleSearch() {
-        if (txtBuscar.getText().isBlank()) {
-            handleListAll();
+        String dni = txtBuscar.getText().trim();
+        if (dni.isEmpty()) {
+            mostrarMensaje("Ingrese un DNI para buscar", "WARNING");
+            return;
+        }
+        if (!dni.matches("[0-9]{8}")) {
+            mostrarMensaje("El DNI debe tener 8 dígitos numéricos", "WARNING");
             return;
         }
         try {
-            Cliente c;
-            if ("DNI".equals(cmbCriterioBusqueda.getValue())) {
-                c = clienteDao.searchByDni(txtBuscar.getText().trim());
-            } else {
-                c = clienteDao.searchById(Integer.parseInt(txtBuscar.getText().trim()));
-            }
+            Cliente c = clienteDao.searchByDni(dni);
             tblClientes.getItems().clear();
-            if (c != null) tblClientes.getItems().add(c);
-            if (c == null) mostrarMensaje("No se encontraron registros", "WARNING");
-            else lblMensaje.setText("");
-        } catch (NumberFormatException e) {
-            mostrarMensaje("Ingrese un ID numérico válido", "WARNING");
+            if (c == null) {
+                mostrarMensaje("No se encontró ningún cliente con ese DNI", "WARNING");
+            } else {
+                tblClientes.getItems().add(c);
+                lblMensaje.setText("");
+            }
         } catch (Exception e) {
             mostrarMensaje("Error al buscar: " + e.getMessage(), "ERROR");
         }

@@ -19,6 +19,7 @@ public class MascotaControler {
     @FXML private TableView<Mascota> tblMascotas;
     @FXML private TextField txtBuscar;
     @FXML private Label lblMensaje;
+    @FXML private TableColumn<Mascota, Number> colNumero;
     @FXML private TableColumn<Mascota, Integer> colId;
     @FXML private TableColumn<Mascota, String> colNombre;
     @FXML private TableColumn<Mascota, String> colEspecie;
@@ -30,11 +31,22 @@ public class MascotaControler {
 
     @FXML
     public void initialize() {
+        colNumero.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Number item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(String.valueOf(getIndex() + 1));
+                }
+            }
+        });
         colId.setCellValueFactory(column -> column.getValue().idMascotaProperty().asObject());
         colNombre.setCellValueFactory(column -> column.getValue().nombreProperty());
         colEspecie.setCellValueFactory(column -> column.getValue().especieProperty());
         colRaza.setCellValueFactory(column -> column.getValue().razaProperty());
-        colCliente.setCellValueFactory(column -> new SimpleStringProperty(column.getValue().getCliente().toString()));
+        colCliente.setCellValueFactory(column -> new SimpleStringProperty(column.getValue().getCliente().getNombres() + " " + column.getValue().getCliente().getApellidos() + " - DNI: " + column.getValue().getCliente().getDni()));
         colEstado.setCellValueFactory(column -> column.getValue().estadoProperty());
         txtBuscar.setOnAction(e -> handleSearch());
         cargardatos();
@@ -58,19 +70,23 @@ public class MascotaControler {
 
     @FXML
     private void handleSearch() {
-        if (txtBuscar.getText().isBlank()) {
-            handleListAll();
+        String dni = txtBuscar.getText().trim();
+        if (dni.isEmpty()) {
+            mostrarMensaje("Ingrese el DNI del propietario para buscar", "WARNING");
+            return;
+        }
+        if (!dni.matches("[0-9]{8}")) {
+            mostrarMensaje("El DNI debe tener 8 dígitos numéricos", "WARNING");
             return;
         }
         try {
-            Mascota m;
-            m = mascotaDao.searchById(Integer.parseInt(txtBuscar.getText().trim()));
-            tblMascotas.getItems().clear();
-            if (m != null) tblMascotas.getItems().add(m);
-            if (m == null) mostrarMensaje("No se encontraron registros", "WARNING");
-            else lblMensaje.setText("");
-        } catch (NumberFormatException e) {
-            mostrarMensaje("Ingrese un ID numérico válido", "WARNING");
+            listaMascota = FXCollections.observableArrayList(mascotaDao.searchByDni(dni));
+            tblMascotas.setItems(listaMascota);
+            if (listaMascota.isEmpty()) {
+                mostrarMensaje("No se encontraron mascotas con ese DNI del propietario", "WARNING");
+            } else {
+                lblMensaje.setText("");
+            }
         } catch (Exception e) {
             mostrarMensaje("Error al buscar: " + e.getMessage(), "ERROR");
         }
