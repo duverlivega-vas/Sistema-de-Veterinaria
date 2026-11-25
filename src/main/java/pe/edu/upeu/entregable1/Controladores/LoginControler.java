@@ -18,24 +18,28 @@ public class LoginControler {
     private void handleLogin() {
         String usuario = txtUsuario.getText().trim();
         String password = txtPassword.getText();
+
         if (usuario.isBlank() || password.isBlank()) {
             mostrarMensaje("Ingrese usuario y contraseña", "WARNING");
             return;
         }
+
+        Usuario u;
         try {
-            boolean acceso;
-            // Se conserva el acceso fijo solicitado para la demostración.
-            if ("admin".equals(usuario)) {
-                acceso = "admin123".equals(password);
-            } else {
-                Usuario u = new UsuarioImpl().searchByUsuario(usuario);
-                acceso = u != null && password.equals(u.getPassword());
-            }
-            if (!acceso) {
-                mostrarMensaje("Usuario o contraseña incorrectos", "WARNING");
-                txtPassword.clear();
-                return;
-            }
+            u = new UsuarioImpl().searchByUsuario(usuario);
+        } catch (RuntimeException e) {
+            mostrarMensaje("Error de conexión con la base de datos", "ERROR");
+            return;
+        }
+
+        if (u == null || !password.equals(u.getPassword())) {
+            mostrarMensaje("Usuario o contraseña incorrectos", "WARNING");
+            txtPassword.clear();
+            return;
+        }
+
+
+        try {
             Stage stage = (Stage) txtUsuario.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/pe/edu/upeu/entregable1/VIews/main-view.fxml"));
