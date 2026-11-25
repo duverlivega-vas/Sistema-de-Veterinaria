@@ -8,5 +8,6 @@ public interface IMascota {
     public boolean update(Mascota m);
     public boolean delete(Mascota m);
     public Mascota searchById(int id);
+    public List<Mascota> searchByDni(String dni);
     public List<Mascota> listAll();
 }

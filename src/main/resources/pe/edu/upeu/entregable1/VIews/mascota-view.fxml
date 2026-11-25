@@ -23,7 +23,7 @@
         </HBox>
 
         <HBox alignment="CENTER_LEFT" spacing="10">
-            <TextField fx:id="txtBuscar" minWidth="0" prefHeight="32" prefWidth="300" promptText="ID de mascota" HBox.hgrow="ALWAYS" />
+            <TextField fx:id="txtBuscar" minWidth="0" prefHeight="32" prefWidth="300" promptText="Buscar por DNI del propietario" HBox.hgrow="ALWAYS" />
             <Button fx:id="btnBuscar" onAction="#handleSearch" minWidth="100" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" text="Buscar" />
             <Button fx:id="btnMostrarTodos" onAction="#handleListAll" minWidth="130" prefHeight="34" style="-fx-background-color: white; -fx-border-color: #0E7C86; -fx-text-fill: #0E7C86;" text="Mostrar todos" />
         </HBox>
@@ -32,11 +32,13 @@
                 <Label text="Todavía no hay registros" />
             </placeholder>
             <columns>
-                <TableColumn fx:id="colId" minWidth="55" prefWidth="60" text="ID" />
+
+                <TableColumn fx:id="colNumero" minWidth="64" prefWidth="64" maxWidth="64" text="N°" sortable="false" resizable="false" style="-fx-alignment: CENTER;" />
+                <TableColumn fx:id="colId" prefWidth="30" text="ID" visible="false" />
                 <TableColumn fx:id="colNombre" minWidth="85" prefWidth="120" text="Nombre" />
                 <TableColumn fx:id="colEspecie" minWidth="85" prefWidth="120" text="Especie" />
                 <TableColumn fx:id="colRaza" minWidth="85" prefWidth="120" text="Raza" />
-                <TableColumn fx:id="colCliente" minWidth="85" prefWidth="120" text="Propietario" />
+                <TableColumn fx:id="colCliente" minWidth="150" prefWidth="245" text="Propietario" />
                 <TableColumn fx:id="colEstado" minWidth="85" prefWidth="120" text="Estado" />
             </columns>
             <columnResizePolicy>

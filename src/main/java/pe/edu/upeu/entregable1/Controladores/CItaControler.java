@@ -16,8 +16,8 @@ import pe.edu.upeu.entregable1.utils.Alerts;
 
 public class CItaControler {
     @FXML private TableView<Cita> tblCitas;
-    @FXML private TextField txtBuscar;
     @FXML private Label lblMensaje;
+    @FXML private TableColumn<Cita, Number> colNumero;
     @FXML private TableColumn<Cita, Integer> colId;
     @FXML private TableColumn<Cita, String> colMascota;
     @FXML private TableColumn<Cita, String> colVeterinario;
@@ -30,14 +30,24 @@ public class CItaControler {
 
     @FXML
     public void initialize() {
+        colNumero.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Number item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(String.valueOf(getIndex() + 1));
+                }
+            }
+        });
         colId.setCellValueFactory(column -> column.getValue().idCitaProperty().asObject());
-        colMascota.setCellValueFactory(column -> new SimpleStringProperty(column.getValue().getMascota().toString()));
-        colVeterinario.setCellValueFactory(column -> new SimpleStringProperty(column.getValue().getVeterinario().toString()));
+        colMascota.setCellValueFactory(column -> column.getValue().getMascota().nombreProperty());
+        colVeterinario.setCellValueFactory(column -> new SimpleStringProperty(column.getValue().getVeterinario().getNombres() + " " + column.getValue().getVeterinario().getApellidos()));
         colFecha.setCellValueFactory(column -> column.getValue().fechaProperty());
         colHora.setCellValueFactory(column -> column.getValue().horaProperty());
         colMotivo.setCellValueFactory(column -> column.getValue().motivoProperty());
         colEstado.setCellValueFactory(column -> column.getValue().estadoProperty());
-        txtBuscar.setOnAction(e -> handleSearch());
         cargardatos();
     }
 
@@ -52,29 +62,8 @@ public class CItaControler {
 
     @FXML
     private void handleListAll() {
-        txtBuscar.clear();
         lblMensaje.setText("");
         cargardatos();
-    }
-
-    @FXML
-    private void handleSearch() {
-        if (txtBuscar.getText().isBlank()) {
-            handleListAll();
-            return;
-        }
-        try {
-            Cita c;
-            c = citaDao.searchById(Integer.parseInt(txtBuscar.getText().trim()));
-            tblCitas.getItems().clear();
-            if (c != null) tblCitas.getItems().add(c);
-            if (c == null) mostrarMensaje("No se encontraron registros", "WARNING");
-            else lblMensaje.setText("");
-        } catch (NumberFormatException e) {
-            mostrarMensaje("Ingrese un ID numérico válido", "WARNING");
-        } catch (Exception e) {
-            mostrarMensaje("Error al buscar: " + e.getMessage(), "ERROR");
-        }
     }
 
     @FXML

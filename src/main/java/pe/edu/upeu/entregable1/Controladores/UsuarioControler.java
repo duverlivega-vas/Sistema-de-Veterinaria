@@ -18,6 +18,7 @@ public class UsuarioControler {
     @FXML private TableView<Usuario> tblUsuarios;
     @FXML private TextField txtBuscar;
     @FXML private Label lblMensaje;
+    @FXML private TableColumn<Usuario, Number> colNumero;
     @FXML private TableColumn<Usuario, Integer> colId;
     @FXML private TableColumn<Usuario, String> colUsuario;
     @FXML private TableColumn<Usuario, String> colNombres;
@@ -29,6 +30,17 @@ public class UsuarioControler {
 
     @FXML
     public void initialize() {
+        colNumero.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Number item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(String.valueOf(getIndex() + 1));
+                }
+            }
+        });
         colId.setCellValueFactory(column -> column.getValue().idusuarioProperty().asObject());
         colUsuario.setCellValueFactory(column -> column.getValue().usuarioProperty());
         colNombres.setCellValueFactory(column -> column.getValue().nombresProperty());
@@ -57,19 +69,24 @@ public class UsuarioControler {
 
     @FXML
     private void handleSearch() {
-        if (txtBuscar.getText().isBlank()) {
-            handleListAll();
+        String dni = txtBuscar.getText().trim();
+        if (dni.isEmpty()) {
+            mostrarMensaje("Ingrese un DNI para buscar", "WARNING");
+            return;
+        }
+        if (!dni.matches("[0-9]{8}")) {
+            mostrarMensaje("El DNI debe tener 8 dígitos numéricos", "WARNING");
             return;
         }
         try {
-            Usuario u;
-            u = usuarioDao.searchById(Integer.parseInt(txtBuscar.getText().trim()));
+            Usuario u = usuarioDao.searchByDni(dni);
             tblUsuarios.getItems().clear();
-            if (u != null) tblUsuarios.getItems().add(u);
-            if (u == null) mostrarMensaje("No se encontraron registros", "WARNING");
-            else lblMensaje.setText("");
-        } catch (NumberFormatException e) {
-            mostrarMensaje("Ingrese un ID numérico válido", "WARNING");
+            if (u == null) {
+                mostrarMensaje("No se encontró ningún usuario con ese DNI", "WARNING");
+            } else {
+                tblUsuarios.getItems().add(u);
+                lblMensaje.setText("");
+            }
         } catch (Exception e) {
             mostrarMensaje("Error al buscar: " + e.getMessage(), "ERROR");
         }

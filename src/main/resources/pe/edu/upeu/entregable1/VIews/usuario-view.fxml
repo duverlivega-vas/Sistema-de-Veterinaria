@@ -16,7 +16,7 @@
             <Button fx:id="btnNuevo" onAction="#handleNew" prefWidth="110" prefHeight="34" text="Nuevo" style="-fx-background-color: #0E7C86; -fx-text-fill: white;"/>
         </HBox>
         <HBox spacing="10" alignment="CENTER_LEFT">
-            <TextField fx:id="txtBuscar" promptText="ID de usuario" HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="txtBuscar" promptText="Buscar por DNI" HBox.hgrow="ALWAYS"/>
             <Button fx:id="btnBuscar" onAction="#handleSearch" text="Buscar"/>
             <Button fx:id="btnMostrarTodos" onAction="#handleListAll" text="Mostrar todos"/>
         </HBox>
@@ -25,7 +25,9 @@
                 <Label text="Todavía no hay registros"/>
             </placeholder>
             <columns>
-                <TableColumn fx:id="colId" text="ID" prefWidth="60" minWidth="55"/>
+
+                <TableColumn fx:id="colNumero" minWidth="64" prefWidth="64" maxWidth="64" text="N°" sortable="false" resizable="false" style="-fx-alignment: CENTER;" />
+                <TableColumn fx:id="colId" prefWidth="30" text="ID" visible="false" />
                 <TableColumn fx:id="colUsuario" text="Usuario" prefWidth="120" minWidth="85"/>
                 <TableColumn fx:id="colNombres" text="Nombres" prefWidth="120" minWidth="85"/>
                 <TableColumn fx:id="colApellidos" text="Apellidos" prefWidth="120" minWidth="85"/>
