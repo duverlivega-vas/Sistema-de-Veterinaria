@@ -3,10 +3,49 @@ package pe.edu.upeu.entregable1.Test;
 import pe.edu.upeu.entregable1.implementacion.UsuarioImpl;
 import pe.edu.upeu.entregable1.interfaces.IUsuario;
 import pe.edu.upeu.entregable1.modelo.Usuario;
+
 import java.util.List;
 
 public class TestUsuario {
     private static final IUsuario dao = new UsuarioImpl();
+
+    public void buscarExistente() {
+        List<Usuario> usuarios = dao.listAll();
+        if (usuarios == null || usuarios.isEmpty()) {
+            System.out.println("No hay usuarios registrados para probar la búsqueda");
+            return;
+        }
+
+        String nombreUsuario = usuarios.get(0).getUsuario();
+        Usuario encontrado = dao.searchByUsuario(nombreUsuario);
+        if (encontrado != null) {
+            System.out.println("Usuario encontrado: " + encontrado.getUsuario());
+            System.out.println("Rol: " + encontrado.getTipoUser());
+        } else {
+            System.out.println("Error: no se encontró el usuario existente");
+        }
+    }
+
+    public void buscarInexistente() {
+        Usuario usuario = dao.searchByUsuario("usuario_que_no_existe");
+        System.out.println(usuario == null
+                ? "Correcto: el usuario inexistente devuelve null"
+                : "Error: no debería encontrar ese usuario");
+    }
+
+    public void listarUsuarios() {
+        List<Usuario> usuarios = dao.listAll();
+        if (usuarios == null || usuarios.isEmpty()) {
+            System.out.println("No hay usuarios registrados");
+            return;
+        }
+
+        for (Usuario usuario : usuarios) {
+            System.out.println("USUARIO: " + usuario.getUsuario());
+            System.out.println("ROL: " + usuario.getTipoUser());
+            System.out.println("-----------------------");
+        }
+    }
 
     public void insertar() {
         Usuario usuario = new Usuario();
@@ -21,9 +60,9 @@ public class TestUsuario {
                 : "No se insertó. Revise si el usuario o DNI ya existe.");
     }
 
-    public void update() {
+    public void actualizar() {
         List<Usuario> usuarios = dao.listAll();
-        if (usuarios.isEmpty()) {
+        if (usuarios == null || usuarios.isEmpty()) {
             System.out.println("No hay usuarios para actualizar");
             return;
         }
@@ -34,9 +73,9 @@ public class TestUsuario {
                 : "No se pudo actualizar el usuario");
     }
 
-    public void delete() {
+    public void eliminar() {
         List<Usuario> usuarios = dao.listAll();
-        if (usuarios.isEmpty()) {
+        if (usuarios == null || usuarios.isEmpty()) {
             System.out.println("No hay usuarios para eliminar");
             return;
         }
@@ -46,21 +85,9 @@ public class TestUsuario {
                 : "No se pudo eliminar el usuario");
     }
 
-    public void listarUsuario() {
+    public void buscarPorDni() {
         List<Usuario> usuarios = dao.listAll();
-        if (usuarios.isEmpty()) {
-            System.out.println("No hay usuarios registrados");
-            return;
-        }
-        for (Usuario usuario : usuarios) {
-            System.out.println(usuario.getUsuario() + " | " + usuario.getDni()
-                    + " | " + usuario.getTipoUser());
-        }
-    }
-
-    public void searchDni() {
-        List<Usuario> usuarios = dao.listAll();
-        if (usuarios.isEmpty()) {
+        if (usuarios == null || usuarios.isEmpty()) {
             System.out.println("No hay usuarios para probar la búsqueda por DNI");
             return;
         }
@@ -73,7 +100,10 @@ public class TestUsuario {
 
     public static void main(String[] args) {
         TestUsuario prueba = new TestUsuario();
-        prueba.searchDni();
-        // Ejecutar insertar, update o delete manualmente para modificar datos de prueba.
+        prueba.buscarExistente();
+        prueba.buscarInexistente();
+        prueba.buscarPorDni();
+        prueba.listarUsuarios();
+        // insertar, actualizar y eliminar se ejecutan manualmente para no modificar la BD.
     }
 }
