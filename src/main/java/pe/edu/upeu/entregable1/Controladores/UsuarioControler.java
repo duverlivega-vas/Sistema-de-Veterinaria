@@ -48,6 +48,9 @@ public class UsuarioControler {
         colDni.setCellValueFactory(column -> column.getValue().dniProperty());
         colTipo.setCellValueFactory(column -> column.getValue().tipoUserProperty());
         txtBuscar.setOnAction(e -> handleSearch());
+        txtBuscar.textProperty().addListener((observable, anterior, actual) -> {
+            if (actual != null && actual.trim().matches("[0-9]{8}")) handleSearch();
+        });
         cargardatos();
     }
 

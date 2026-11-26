@@ -20,6 +20,8 @@ public class UsuarioFormControler {
 
     @FXML
     public void initialize() {
+        cmbTipoUser.getItems().add("Administrador");
+        cmbTipoUser.getItems().add("Recepcionista");
         cmbTipoUser.setValue("Recepcionista");
     }
 
@@ -57,7 +59,10 @@ public class UsuarioFormControler {
             mostrarMensaje("El DNI debe tener 8 dígitos", "WARNING");
             return false;
         }
-        if ("admin".equals(txtUsuario.getText().trim())) {
+        boolean esAdminReservado = "admin".equalsIgnoreCase(txtUsuario.getText().trim());
+        boolean estaEditandoAdminExistente = u != null
+                && "admin".equalsIgnoreCase(u.getUsuario());
+        if (esAdminReservado && !estaEditandoAdminExistente) {
             mostrarMensaje("admin está reservado para el acceso de demostración. Use otro nombre.", "WARNING");
             return false;
         }

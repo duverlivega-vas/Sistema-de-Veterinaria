@@ -9,4 +9,6 @@ public interface ICita {
     public boolean delete(Cita c);
     public Cita searchById(int id);
     public List<Cita> listAll();
+    public boolean updateStatus(Cita cita);
+    public boolean verificarConflictoHorario(Cita cita);
 }

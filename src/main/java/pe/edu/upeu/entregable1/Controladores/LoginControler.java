@@ -38,6 +38,13 @@ public class LoginControler {
             return;
         }
 
+        String tipoUsuario = u.getTipoUser() == null ? "" : u.getTipoUser().trim();
+        if (!"Administrador".equalsIgnoreCase(tipoUsuario)
+                && !"Recepcionista".equalsIgnoreCase(tipoUsuario)) {
+            mostrarMensaje("El usuario no tiene un tipo asignado válido. Contacte al administrador.", "ERROR");
+            return;
+        }
+
 
         try {
             Stage stage = (Stage) txtUsuario.getScene().getWindow();
@@ -45,8 +52,10 @@ public class LoginControler {
                     "/pe/edu/upeu/entregable1/VIews/main-view.fxml"));
             Parent root = loader.load();
             MainControler controller = loader.getController();
-            controller.setUsuario(usuario);
+            controller.setUsuario(u);
             stage.getScene().setRoot(root);
+            stage.setResizable(true);
+            stage.setMaximized(true);
             stage.setTitle("Sistema de Veterinaria - " + usuario);
         } catch (Exception e) {
             mostrarMensaje("No se pudo abrir el sistema: " + e.getMessage(), "ERROR");

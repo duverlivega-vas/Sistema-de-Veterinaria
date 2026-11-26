@@ -79,8 +79,25 @@ public class TestMascota {
         }
     }
 
+    public void searchDniPropietario() {
+        List<Mascota> mascotas = dao.listAll();
+        if (mascotas == null || mascotas.isEmpty() || mascotas.get(0).getCliente() == null) {
+            System.out.println("No hay mascotas con propietario para probar la búsqueda por DNI");
+            return;
+        }
+        Mascota ejemplo = mascotas.get(0);
+        String dni = ejemplo.getCliente().getDni();
+        List<Mascota> encontradas = dao.searchByDni(dni);
+        boolean encontrada = encontradas.stream()
+                .anyMatch(mascota -> mascota.getIdMascota() == ejemplo.getIdMascota());
+        System.out.println(encontrada
+                ? "Búsqueda de mascotas por DNI del propietario correcta: " + dni
+                : "Error en la búsqueda de mascotas por DNI del propietario: " + dni);
+    }
+
     public static void main(String[] args) {
         TestMascota t = new TestMascota();
+        t.searchDniPropietario();
         // t.searchId();
         // t.insertar();
         // t.update();

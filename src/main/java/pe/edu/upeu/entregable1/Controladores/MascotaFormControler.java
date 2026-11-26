@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import pe.edu.upeu.entregable1.modelo.*;
 import pe.edu.upeu.entregable1.implementacion.*;
 
@@ -23,7 +24,23 @@ public class MascotaFormControler {
     public void initialize() {
         try {
             cmbCliente.setItems(FXCollections.observableArrayList(new ClienteImpl().listAll()));
+            cmbCliente.setConverter(new StringConverter<>() {
+                @Override
+                public String toString(Cliente cliente) {
+                    if (cliente == null) return "";
+                    return cliente.getDni() + " — " + cliente.getNombres() + " " + cliente.getApellidos();
+                }
+
+                @Override
+                public Cliente fromString(String texto) {
+                    return null;
+                }
+            });
             cmbEstado.setValue("Activo");
+            if (cmbCliente.getItems().isEmpty()) {
+                lblMensaje.setText("Primero registre un propietario en la sección Clientes.");
+                btnGuardar.setDisable(true);
+            }
         } catch (Exception e) {
             mostrarMensaje("No se pudieron cargar las opciones: " + e.getMessage(), "ERROR");
             btnGuardar.setDisable(true);
@@ -37,11 +54,20 @@ public class MascotaFormControler {
         txtNombre.setText(m.getNombre());
         cmbEspecie.setValue(m.getEspecie());
         txtRaza.setText(m.getRaza());
-        for (Cliente opcion : cmbCliente.getItems()) {
-            if (opcion.getIdcliente() == m.getCliente().getIdcliente()) {
-                cmbCliente.setValue(opcion);
-                break;
+        boolean propietarioDisponible = false;
+        if (m.getCliente() != null) {
+            for (Cliente opcion : cmbCliente.getItems()) {
+                if (opcion.getIdcliente() == m.getCliente().getIdcliente()) {
+                    cmbCliente.setValue(opcion);
+                    propietarioDisponible = true;
+                    break;
+                }
             }
+        }
+        if (!propietarioDisponible && m.getCliente() != null) {
+            cmbCliente.getItems().add(m.getCliente());
+            cmbCliente.setValue(m.getCliente());
+            btnGuardar.setDisable(false);
         }
         cmbEstado.setValue(m.getEstado());
     }

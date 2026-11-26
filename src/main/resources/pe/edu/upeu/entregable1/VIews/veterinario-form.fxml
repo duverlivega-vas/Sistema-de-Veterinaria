@@ -5,7 +5,7 @@
 <?import java.lang.String?>
 
 <?import javafx.geometry.Insets?>
-<GridPane fx:controller="pe.edu.upeu.entregable1.Controladores.VeterinarioFormControler" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" prefWidth="380" hgap="12" vgap="12" style="-fx-background-color: #F6FAFB;" prefHeight="434" stylesheets="@veterinaria.css" styleClass="vet-root" minWidth="380">
+<GridPane fx:controller="pe.edu.upeu.entregable1.Controladores.VeterinarioFormControler" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" prefWidth="380" hgap="12" vgap="12" prefHeight="434" minWidth="380" style="-fx-background-color: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 13px; -fx-background-radius: 14; -fx-border-color: #DCE6EC; -fx-border-radius: 14; -fx-effect: dropshadow(gaussian, rgba(20,55,75,0.08), 16, 0.08, 0, 4);">
     <padding>
         <Insets top="24" right="24" bottom="24" left="24"/>
     </padding>
@@ -16,17 +16,17 @@
     <children>
         <Label fx:id="lblTitulo" text="Datos de veterinario" style="-fx-font-size: 23; -fx-font-weight: bold; -fx-text-fill: #0B3557;" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" wrapText="true" minWidth="0"/>
         <Label text="Nombres" style="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="1" minWidth="0"/>
-        <TextField fx:id="txtNombres" prefWidth="200" prefHeight="30" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="1" minWidth="0"/>
+        <TextField fx:id="txtNombres" prefWidth="200" prefHeight="30" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="1" minWidth="0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D5E1E9; -fx-border-radius: 8; -fx-padding: 7 10; -fx-text-fill: #173B53; -fx-prompt-text-fill: #8A9BA7;"/>
         <Label text="Apellidos" style="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="2" minWidth="0"/>
-        <TextField fx:id="txtApellidos" prefWidth="200" prefHeight="30" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="2" minWidth="0"/>
+        <TextField fx:id="txtApellidos" prefWidth="200" prefHeight="30" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="2" minWidth="0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D5E1E9; -fx-border-radius: 8; -fx-padding: 7 10; -fx-text-fill: #173B53; -fx-prompt-text-fill: #8A9BA7;"/>
         <Label text="DNI" style="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="3" minWidth="0"/>
-        <TextField fx:id="txtDni" prefWidth="200" prefHeight="30" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="3" minWidth="0"/>
+        <TextField fx:id="txtDni" prefWidth="200" prefHeight="30" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="3" minWidth="0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D5E1E9; -fx-border-radius: 8; -fx-padding: 7 10; -fx-text-fill: #173B53; -fx-prompt-text-fill: #8A9BA7;"/>
         <Label text="Teléfono" style="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="4" minWidth="0"/>
-        <TextField fx:id="txtTelefono" prefWidth="200" prefHeight="30" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="4" minWidth="0"/>
+        <TextField fx:id="txtTelefono" promptText="9 números" prefWidth="200" prefHeight="30" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="4" minWidth="0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D5E1E9; -fx-border-radius: 8; -fx-padding: 7 10; -fx-text-fill: #173B53; -fx-prompt-text-fill: #8A9BA7;"/>
         <Label text="Especialidad" style="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="5" minWidth="0"/>
-        <TextField fx:id="txtEspecialidad" prefWidth="200" prefHeight="30" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="5" minWidth="0"/>
+        <TextField fx:id="txtEspecialidad" prefWidth="200" prefHeight="30" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="5" minWidth="0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D5E1E9; -fx-border-radius: 8; -fx-padding: 7 10; -fx-text-fill: #173B53; -fx-prompt-text-fill: #8A9BA7;"/>
         <Label text="Estado" style="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="6" minWidth="0"/>
-        <ComboBox fx:id="cmbEstado" prefWidth="200" prefHeight="30" promptText="Seleccionar" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="6" minWidth="0">
+        <ComboBox fx:id="cmbEstado" prefWidth="200" prefHeight="30" promptText="Seleccionar" maxWidth="Infinity" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="6" minWidth="0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D5E1E9; -fx-border-radius: 8; -fx-padding: 7 10; -fx-text-fill: #173B53; -fx-prompt-text-fill: #8A9BA7;">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="Activo"/>
@@ -35,8 +35,8 @@
             </items>
         </ComboBox>
         <HBox spacing="12" alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.columnSpan="2">
-            <Button fx:id="btnGuardar" onAction="#handleSaved" defaultButton="true" prefWidth="110" prefHeight="34" text="Guardar" style="-fx-background-color: #0E7C86; -fx-text-fill: white;"/>
-            <Button fx:id="btnCancelarEdicion" onAction="#handleCancel" cancelButton="true" prefWidth="110" prefHeight="34" text="Cancelar" style="-fx-background-color: white; -fx-border-color: #0E7C86; -fx-text-fill: #0E7C86;"/>
+            <Button fx:id="btnGuardar" onAction="#handleSaved" defaultButton="true" prefWidth="110" prefHeight="34" text="Guardar" style="-fx-background-color: #EFA30E; -fx-text-fill: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-padding: 8 16; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(20,55,75,0.16), 8, 0.08, 0, 2);"/>
+            <Button fx:id="btnCancelarEdicion" onAction="#handleCancel" cancelButton="true" prefWidth="110" prefHeight="34" text="Cancelar" style="-fx-background-color: white; -fx-border-color: #E98554; -fx-border-width: 1.5; -fx-text-fill: #C55C32; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-padding: 8 16; -fx-cursor: hand;"/>
         </HBox>
         <Label fx:id="lblMensaje" prefWidth="600" text="" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="8" GridPane.columnSpan="2" minWidth="0"/>
     </children>

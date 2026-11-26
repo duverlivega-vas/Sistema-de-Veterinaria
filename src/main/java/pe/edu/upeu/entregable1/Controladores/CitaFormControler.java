@@ -5,32 +5,107 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import pe.edu.upeu.entregable1.modelo.*;
 import pe.edu.upeu.entregable1.implementacion.*;
 
 public class CitaFormControler {
     @FXML private Label lblTitulo, lblMensaje;
+    @FXML private Label lblEstado, lblNombreCliente;
     @FXML private Button btnGuardar;
     private Cita c;
+    private Cliente clienteEncontrado;
     private boolean saved = false;
+    @FXML private ComboBox<Cliente> cmbDniCliente;
     @FXML private ComboBox<Mascota> cmbMascota;
     @FXML private ComboBox<Veterinario> cmbVeterinario;
     @FXML private DatePicker dpFecha;
-    @FXML private TextField txtHora;
+    @FXML private ComboBox<String> cmbHora;
     @FXML private TextArea txtMotivo;
-    @FXML private ComboBox<String> cmbEstado;
 
     @FXML
     public void initialize() {
         try {
-            cmbMascota.setItems(FXCollections.observableArrayList(new MascotaImpl().listAll()));
+            cmbDniCliente.setItems(FXCollections.observableArrayList(new ClienteImpl().listAll()));
+            cmbDniCliente.setConverter(new StringConverter<>() {
+                @Override
+                public String toString(Cliente cliente) {
+                    return cliente == null ? "" : cliente.getDni();
+                }
+
+                @Override
+                public Cliente fromString(String texto) {
+                    return null;
+                }
+            });
+            cmbDniCliente.setCellFactory(combo -> new ListCell<>() {
+                @Override
+                protected void updateItem(Cliente cliente, boolean empty) {
+                    super.updateItem(cliente, empty);
+                    setText(empty || cliente == null ? null : cliente.getDni());
+                }
+            });
+            cmbDniCliente.setButtonCell(new ListCell<>() {
+                @Override
+                protected void updateItem(Cliente cliente, boolean empty) {
+                    super.updateItem(cliente, empty);
+                    setText(empty || cliente == null ? null : cliente.getDni());
+                }
+            });
             cmbVeterinario.setItems(FXCollections.observableArrayList(new VeterinarioImpl().listAll()));
+            cmbMascota.setItems(FXCollections.observableArrayList());
+            cmbMascota.setDisable(true);
+            cmbMascota.setConverter(new StringConverter<>() {
+                @Override
+                public String toString(Mascota mascota) {
+                    return mascota == null ? "" : mascota.getNombre() + " (" + mascota.getEspecie() + ")";
+                }
+
+                @Override
+                public Mascota fromString(String texto) {
+                    return null;
+                }
+            });
+            cmbMascota.setCellFactory(combo -> new ListCell<>() {
+                @Override
+                protected void updateItem(Mascota mascota, boolean empty) {
+                    super.updateItem(mascota, empty);
+                    setText(empty || mascota == null ? null
+                            : mascota.getNombre() + " (" + mascota.getEspecie() + ")");
+                }
+            });
+            cmbVeterinario.setConverter(new StringConverter<>() {
+                @Override
+                public String toString(Veterinario veterinario) {
+                    if (veterinario == null) return "";
+                    String nombre = veterinario.getNombres() + " " + veterinario.getApellidos();
+                    return veterinario.getEspecialidad() == null || veterinario.getEspecialidad().isBlank()
+                            ? nombre : nombre + " — " + veterinario.getEspecialidad();
+                }
+
+                @Override
+                public Veterinario fromString(String texto) {
+                    return null;
+                }
+            });
+            cargarHorarios();
             dpFecha.setValue(LocalDate.now());
-            cmbEstado.setValue("Pendiente");
+            lblEstado.setText("Pendiente");
+            cmbDniCliente.valueProperty().addListener((observable, anterior, seleccionado) ->
+                    handleBuscarCliente(seleccionado));
         } catch (Exception e) {
             mostrarMensaje("No se pudieron cargar las opciones: " + e.getMessage(), "ERROR");
             btnGuardar.setDisable(true);
+        }
+    }
+
+    private void cargarHorarios() {
+        for (LocalTime hora = LocalTime.of(8, 0);
+             !hora.isAfter(LocalTime.of(18, 0));
+             hora = hora.plusMinutes(30)) {
+            cmbHora.getItems().add(hora.toString());
         }
     }
 
@@ -38,22 +113,70 @@ public class CitaFormControler {
         this.c = c;
         if (c == null) return;
         lblTitulo.setText("Editar cita");
-        for (Mascota opcion : cmbMascota.getItems()) {
-            if (opcion.getIdMascota() == c.getMascota().getIdMascota()) {
-                cmbMascota.setValue(opcion);
-                break;
+        if (c.getMascota() != null) {
+            Mascota mascotaCompleta = new MascotaImpl().searchById(c.getMascota().getIdMascota());
+            if (mascotaCompleta != null && mascotaCompleta.getCliente() != null) {
+                for (Cliente propietario : cmbDniCliente.getItems()) {
+                    if (propietario.getDni().equals(mascotaCompleta.getCliente().getDni())) {
+                        cmbDniCliente.setValue(propietario);
+                        break;
+                    }
+                }
+                for (Mascota opcion : cmbMascota.getItems()) {
+                    if (opcion.getIdMascota() == mascotaCompleta.getIdMascota()) {
+                        cmbMascota.setValue(opcion);
+                        break;
+                    }
+                }
             }
         }
         for (Veterinario opcion : cmbVeterinario.getItems()) {
-            if (opcion.getIdveterinario() == c.getVeterinario().getIdveterinario()) {
+            if (c.getVeterinario() != null && opcion.getIdveterinario() == c.getVeterinario().getIdveterinario()) {
                 cmbVeterinario.setValue(opcion);
                 break;
             }
         }
         dpFecha.setValue(c.getFecha());
-        txtHora.setText(c.getHora());
+        if (c.getHora() != null && !cmbHora.getItems().contains(c.getHora())) {
+            cmbHora.getItems().add(c.getHora());
+            FXCollections.sort(cmbHora.getItems());
+        }
+        cmbHora.setValue(c.getHora());
         txtMotivo.setText(c.getMotivo());
-        cmbEstado.setValue(c.getEstado());
+        lblEstado.setText(c.getEstado());
+    }
+
+    private void handleBuscarCliente(Cliente clienteSeleccionado) {
+        clienteEncontrado = clienteSeleccionado;
+        cmbMascota.getItems().clear();
+        cmbMascota.setValue(null);
+        cmbMascota.setDisable(true);
+        lblMensaje.setText("");
+        if (clienteSeleccionado == null) {
+            lblNombreCliente.setText("Seleccione un DNI para cargar sus mascotas");
+            lblNombreCliente.setStyle("-fx-text-fill: #718391;");
+            cmbMascota.setPromptText("Seleccione primero el DNI del propietario");
+            return;
+        }
+        try {
+            lblNombreCliente.setText(clienteSeleccionado.getNombres() + " " + clienteSeleccionado.getApellidos());
+            lblNombreCliente.setStyle("-fx-text-fill: #1B5E20; -fx-font-weight: bold;");
+            cmbMascota.setItems(FXCollections.observableArrayList(
+                    new MascotaImpl().searchByDni(clienteSeleccionado.getDni())));
+            if (cmbMascota.getItems().isEmpty()) {
+                cmbMascota.setPromptText("Este propietario no tiene mascotas");
+                lblMensaje.setText("Este propietario todavía no tiene mascotas registradas.");
+            } else {
+                cmbMascota.setPromptText("Seleccione una mascota");
+                cmbMascota.setDisable(false);
+            }
+        } catch (Exception e) {
+            clienteEncontrado = null;
+            cmbMascota.setPromptText("No se pudieron cargar las mascotas");
+            lblNombreCliente.setText("No se pudo cargar el propietario");
+            lblNombreCliente.setStyle("-fx-text-fill: #B71C1C;");
+            mostrarMensaje("No se pudo buscar al cliente: " + e.getMessage(), "ERROR");
+        }
     }
 
     public boolean isSaved() { return saved; }
@@ -71,16 +194,32 @@ public class CitaFormControler {
             mostrarMensaje("Ingrese una fecha válida usando el calendario", "WARNING");
             return false;
         }
-        if (cmbMascota.getValue() == null ||
+        if (clienteEncontrado == null ||
+                cmbMascota.getValue() == null ||
                 cmbVeterinario.getValue() == null ||
                 dpFecha.getValue() == null ||
-                txtHora.getText().isBlank() ||
-                cmbEstado.getValue() == null) {
+                cmbHora.getValue() == null || cmbHora.getValue().isBlank()) {
             mostrarMensaje("Complete los campos obligatorios y seleccione las opciones", "WARNING");
             return false;
         }
-        if (!txtHora.getText().trim().matches("([01][0-9]|2[0-3]):[0-5][0-9]")) {
-            mostrarMensaje("Ingrese la hora en formato HH:mm, por ejemplo 14:30", "WARNING");
+        if (dpFecha.getValue().isBefore(LocalDate.now())) {
+            mostrarMensaje("La cita debe programarse para hoy o una fecha futura", "WARNING");
+            return false;
+        }
+
+        Cita propuesta = new Cita();
+        if (c != null) propuesta.setIdCita(c.getIdCita());
+        propuesta.setMascota(cmbMascota.getValue());
+        propuesta.setVeterinario(cmbVeterinario.getValue());
+        propuesta.setFecha(dpFecha.getValue());
+        propuesta.setHora(cmbHora.getValue());
+        try {
+            if (new CitaImpl().verificarConflictoHorario(propuesta)) {
+                mostrarMensaje("Ese horario ya está reservado para la mascota o el veterinario seleccionado", "WARNING");
+                return false;
+            }
+        } catch (Exception e) {
+            mostrarMensaje("No se pudo comprobar la disponibilidad: " + e.getMessage(), "ERROR");
             return false;
         }
         return true;
@@ -98,9 +237,11 @@ public class CitaFormControler {
             c.setMascota(cmbMascota.getValue());
             c.setVeterinario(cmbVeterinario.getValue());
             c.setFecha(dpFecha.getValue());
-            c.setHora(txtHora.getText().trim());
+            c.setHora(cmbHora.getValue());
             c.setMotivo(txtMotivo.getText().trim());
-            c.setEstado(cmbEstado.getValue());
+            if (c.getEstado() == null || c.getEstado().isBlank()) {
+                c.setEstado("Pendiente");
+            }
             saved = true;
             cerrar();
         }

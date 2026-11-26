@@ -57,11 +57,6 @@ public class ConsultaControler {
         }
     }
 
-    @FXML
-    private void handleListAll() {
-        lblMensaje.setText("");
-        cargardatos();
-    }
 
     @FXML
     private void handleNew() { showForm(null); }

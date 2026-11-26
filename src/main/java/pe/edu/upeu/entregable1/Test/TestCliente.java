@@ -79,19 +79,22 @@ public class TestCliente {
     }
 
     public void searchDni() {
-        Cliente c = dao.searchByDni("98765433");
-        if (c != null) {
-            System.out.println("ID: " + c.getIdcliente());
-            System.out.println("NOMBRES: " + c.getNombres());
-            System.out.println("DNI: " + c.getDni());
-        } else {
-            System.out.println("No hay registros");
+        List<Cliente> clientes = dao.listAll();
+        if (clientes == null || clientes.isEmpty()) {
+            System.out.println("No hay clientes para probar la búsqueda por DNI");
+            return;
         }
+        String dni = clientes.get(0).getDni();
+        Cliente encontrado = dao.searchByDni(dni);
+        System.out.println(encontrado != null && dni.equals(encontrado.getDni())
+                ? "Búsqueda de cliente por DNI correcta: " + encontrado.getDni()
+                : "Error en la búsqueda de cliente por DNI: " + dni);
     }
 
     public static void main(String[] args) {
         TestCliente t = new TestCliente();
         // Ejecutar primero el listado. Para modificar datos, ajustar los ejemplos e IDs.
+        t.searchDni();
         // t.searchId();
         // t.searchDni();
         // t.insertar();

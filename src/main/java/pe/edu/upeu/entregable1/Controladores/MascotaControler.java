@@ -49,6 +49,9 @@ public class MascotaControler {
         colCliente.setCellValueFactory(column -> new SimpleStringProperty(column.getValue().getCliente().getNombres() + " " + column.getValue().getCliente().getApellidos() + " - DNI: " + column.getValue().getCliente().getDni()));
         colEstado.setCellValueFactory(column -> column.getValue().estadoProperty());
         txtBuscar.setOnAction(e -> handleSearch());
+        txtBuscar.textProperty().addListener((observable, anterior, actual) -> {
+            if (actual != null && actual.trim().matches("[0-9]{8}")) handleSearch();
+        });
         cargardatos();
     }
 

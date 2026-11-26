@@ -78,9 +78,23 @@ public class TestVeterinario {
         }
     }
 
+    public void searchDni() {
+        List<Veterinario> veterinarios = dao.listAll();
+        if (veterinarios == null || veterinarios.isEmpty()) {
+            System.out.println("No hay veterinarios para probar la búsqueda por DNI");
+            return;
+        }
+        String dni = veterinarios.get(0).getDni();
+        Veterinario encontrado = dao.searchByDni(dni);
+        System.out.println(encontrado != null && dni.equals(encontrado.getDni())
+                ? "Búsqueda de veterinario por DNI correcta: " + dni
+                : "Error en la búsqueda de veterinario por DNI: " + dni);
+    }
+
     public static void main(String[] args) {
         TestVeterinario t = new TestVeterinario();
-        // Ejecutar primero el listado. Para modificar datos, ajustar los ejemplos e IDs.
+        // Ejecutar primero la búsqueda por DNI. Para modificar datos, ajustar los ejemplos e IDs.
+        t.searchDni();
         // t.searchId();
         // t.insertar();
         // t.update();

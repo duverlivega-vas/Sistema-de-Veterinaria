@@ -50,6 +50,9 @@ public class VeterinarioControler {
         colEspecialidad.setCellValueFactory(column -> column.getValue().especialidadProperty());
         colEstado.setCellValueFactory(column -> column.getValue().estadoProperty());
         txtBuscar.setOnAction(e -> handleSearch());
+        txtBuscar.textProperty().addListener((observable, anterior, actual) -> {
+            if (actual != null && actual.trim().matches("[0-9]{8}")) handleSearch();
+        });
         cargardatos();
     }
 

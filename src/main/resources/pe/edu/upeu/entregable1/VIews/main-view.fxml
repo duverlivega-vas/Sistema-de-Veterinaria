@@ -1,34 +1,39 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" prefWidth="1000" prefHeight="680" fx:controller="pe.edu.upeu.entregable1.Controladores.MainControler" stylesheets="@veterinaria.css" styleClass="vet-root">
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="900" prefWidth="1520" style="-fx-background-color: #F3F7FA; -fx-font-family: 'Segoe UI'; -fx-font-size: 13px;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pe.edu.upeu.entregable1.Controladores.MainControler">
     <top>
-        <AnchorPane prefHeight="65" style="-fx-background-color: #0B3557;">
+        <AnchorPane prefHeight="107.0" prefWidth="1000.0" style="-fx-background-color: linear-gradient(to right, #0B3557, #0E596B);">
             <children>
-                <Label layoutX="20" layoutY="20" text="SISTEMA VETERINARIO" style="-fx-font-size: 21; -fx-font-weight: bold; -fx-text-fill: white;"/>
-                <Label fx:id="lblUsuario" text="Usuario conectado" AnchorPane.rightAnchor="160" layoutY="25" style="-fx-text-fill: white;"/>
-                <Button fx:id="btnCerrarSesion" onAction="#cerrarSesion" text="Cerrar sesión" AnchorPane.rightAnchor="20" layoutY="18" prefHeight="32" style="-fx-background-color: white; -fx-border-color: #0E7C86; -fx-text-fill: #0E7C86;"/>
+                <Label fx:id="lblUsuario" layoutX="736.0" layoutY="52.0" style="-fx-text-fill: #D9EDF0; -fx-font-size: 13px;" text="Usuario conectado" AnchorPane.rightAnchor="156.0" />
+                <Button fx:id="btnCerrarSesion" layoutX="858.0" layoutY="43.0" onAction="#cerrarSesion" prefHeight="34" style="-fx-background-color: white; -fx-border-color: #C6DDE2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: #0B6570; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-padding: 8 15; -fx-cursor: hand;" text="Cerrar sesión" AnchorPane.rightAnchor="30.0" />
+            <Label layoutX="34.0" layoutY="31.0" text="SISTEMA VETERINARIO" textFill="#f7f7f7">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
             </children>
         </AnchorPane>
     </top>
     <left>
-        <VBox prefWidth="180" spacing="8" style="-fx-background-color: #E7F2F4; -fx-padding: 16;" minWidth="180">
-            <Button fx:id="btnInicio" onAction="#showHome" text="Inicio" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnClientes" onAction="#showCliente" text="Clientes" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnMascotas" onAction="#showMascota" text="Mascotas" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnVeterinarios" onAction="#showVeterinario" text="Veterinarios" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnCitas" onAction="#showCita" text="Citas" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnConsultas" onAction="#showConsulta" text="Consultas" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnTratamientos" onAction="#showTratamiento" text="Tratamientos" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
-            <Button fx:id="btnUsuarios" onAction="#showUsuario" text="Usuarios" prefWidth="148" prefHeight="34" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" minHeight="34"/>
+        <VBox minWidth="180" prefHeight="573.0" prefWidth="223.0" spacing="8" style="-fx-background-color: #E8F1F5; -fx-padding: 18; -fx-border-color: transparent #D7E3E9 transparent transparent;">
+            <Button fx:id="btnInicio" alignment="TOP_LEFT" onAction="#showHome" prefHeight="38" prefWidth="148" style="-fx-background-color: #0E3A5D; -fx-text-fill: #ffffff; -fx-background-radius: 8; -fx-padding: 9 13; -fx-font-weight: normal; -fx-cursor: hand; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-padding: 8 15; -fx-cursor: hand;" text="           Inicio" textFill="WHITE" />
+            <Button fx:id="btnClientes" alignment="TOP_CENTER" contentDisplay="CENTER" onAction="#showCliente" prefHeight="38" prefWidth="148" style="-fx-background-color: #0E3A5D; -fx-text-fill: #ffffff; -fx-background-radius: 8; -fx-padding: 9 13; -fx-font-weight: normal; -fx-cursor: hand; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-padding: 8 15; -fx-cursor: hand;" text="Clientes" textFill="WHITE" />
+            <Button fx:id="btnMascotas" onAction="#showMascota" prefHeight="38" prefWidth="148" style="-fx-background-color: #0E3A5D; -fx-text-fill: #ffffff; -fx-background-radius: 8; -fx-padding: 9 13; -fx-font-weight: normal; -fx-cursor: hand; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-padding: 8 15; -fx-cursor: hand;" text="Mascotas" />
+            <Button fx:id="btnVeterinarios" onAction="#showVeterinario" prefHeight="38" prefWidth="148" style="-fx-background-color: #0E3A5D; -fx-text-fill: #ffffff; -fx-background-radius: 8; -fx-padding: 9 13; -fx-font-weight: normal; -fx-cursor: hand; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-padding: 8 15; -fx-cursor: hand;" text="Veterinarios" />
+            <Button fx:id="btnCitas" onAction="#showCita" prefHeight="38" prefWidth="148" style="-fx-background-color: #0E3A5D; -fx-text-fill: #ffffff; -fx-background-radius: 8; -fx-padding: 9 13; -fx-font-weight: normal; -fx-cursor: hand; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-padding: 8 15; -fx-cursor: hand;" text="Citas" />
+            <Button fx:id="btnConsultas" onAction="#showConsulta" prefHeight="38" prefWidth="148" style="-fx-background-color: #0E3A5D; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 9 13; -fx-font-weight: normal; -fx-cursor: hand; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-padding: 8 15; -fx-cursor: hand;" text="Consultas" />
+            <Button fx:id="btnTratamientos" onAction="#showTratamiento" prefHeight="38" prefWidth="148" style="-fx-background-color: #0E3A5D; -fx-text-fill: #ffffff; -fx-background-radius: 8; -fx-padding: 9 13; -fx-font-weight: normal; -fx-cursor: hand; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-padding: 8 15; -fx-cursor: hand;" text="Tratamientos" />
+            <Button fx:id="btnUsuarios" onAction="#showUsuario" prefHeight="38" prefWidth="148" style="-fx-background-color: #0E3A5D; -fx-text-fill: #ffffff; -fx-background-radius: 8; -fx-padding: 9 13; -fx-font-weight: normal; -fx-cursor: hand; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-padding: 8 15; -fx-cursor: hand;" text="Usuarios" />
         </VBox>
     </left>
     <center>
-        <StackPane fx:id="contenedorVistas" minWidth="0" minHeight="0">
+        <StackPane fx:id="contenedorVistas" minHeight="0" minWidth="0" prefHeight="573.0" prefWidth="731.0">
             <children>
-                <fx:include source="home-view.fxml"/>
+                <fx:include source="home-view.fxml" />
             </children>
         </StackPane>
     </center>

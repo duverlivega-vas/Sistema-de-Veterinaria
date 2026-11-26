@@ -1,55 +1,83 @@
-<?xml version="1.0" ?>
-<?import java.lang.*?>
-<?import javafx.collections.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<GridPane fx:controller="pe.edu.upeu.entregable1.Controladores.CitaFormControler" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" hgap="12" prefHeight="474" prefWidth="380" style="-fx-background-color: #F6FAFB;" vgap="12" stylesheets="@veterinaria.css" styleClass="vet-root" minWidth="380">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane fx:controller="pe.edu.upeu.entregable1.Controladores.CitaFormControler"
+          xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+          hgap="14" vgap="11" prefHeight="570" prefWidth="540" minWidth="500"
+          style="-fx-background-color: white; -fx-font-family: 'Segoe UI'; -fx-font-size: 13px; -fx-background-radius: 14; -fx-border-color: #DCE6EC; -fx-border-radius: 14; -fx-effect: dropshadow(gaussian, rgba(20,55,75,0.08), 16, 0.08, 0, 4);">
     <padding>
-        <Insets bottom="24" left="24" right="24" top="24"/>
+        <Insets bottom="22" left="24" right="24" top="22"/>
     </padding>
     <columnConstraints>
-        <ColumnConstraints hgrow="NEVER" percentWidth="35"/>
-        <ColumnConstraints hgrow="ALWAYS" percentWidth="65"/>
+        <ColumnConstraints percentWidth="31"/>
+        <ColumnConstraints hgrow="ALWAYS" percentWidth="69"/>
     </columnConstraints>
     <children>
-        <Label fx:id="lblTitulo" style="-fx-font-size: 23; -fx-font-weight: bold; -fx-text-fill: #0B3557;" text="Datos de cita" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" wrapText="true" minWidth="0"/>
-        <Label style="" text="Mascota" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="1" minWidth="0"/>
-        <ComboBox fx:id="cmbMascota" maxWidth="Infinity" prefHeight="30" prefWidth="200" promptText="Seleccionar" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" minWidth="0"/>
-        <Label style="" text="Veterinario" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="2" minWidth="0"/>
-        <ComboBox fx:id="cmbVeterinario" maxWidth="Infinity" prefHeight="30" prefWidth="200" promptText="Seleccionar" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" minWidth="0"/>
-        <Label style="" text="Fecha" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="3" minWidth="0"/>
-        <DatePicker fx:id="dpFecha" maxWidth="Infinity" prefHeight="30" prefWidth="200" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" minWidth="0"/>
-        <Label style="" text="Hora" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="4" minWidth="0"/>
-        <TextField fx:id="txtHora" maxWidth="Infinity" prefHeight="30" prefWidth="200" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" minWidth="0"/>
-        <Label style="" text="Motivo" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="5" minWidth="0"/>
-        <TextArea fx:id="txtMotivo" maxWidth="Infinity" prefHeight="70" prefWidth="200" wrapText="true" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" minWidth="0"/>
-        <Label style="" text="Estado" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="6" minWidth="0"/>
-        <ComboBox fx:id="cmbEstado" maxWidth="Infinity" prefHeight="30" prefWidth="200" promptText="Seleccionar" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" minWidth="0">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Pendiente"/>
-                    <String fx:value="Atendida"/>
-                    <String fx:value="Cancelada"/>
-                </FXCollections>
-            </items>
-        </ComboBox>
-        <HBox alignment="CENTER_RIGHT" spacing="12" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="7">
-            <Button fx:id="btnGuardar" onAction="#handleSaved" defaultButton="true" prefHeight="34" prefWidth="110" style="-fx-background-color: #0E7C86; -fx-text-fill: white;" text="Guardar"/>
-            <Button fx:id="btnCancelarEdicion" onAction="#handleCancel" cancelButton="true" prefHeight="34" prefWidth="110" style="-fx-background-color: white; -fx-border-color: #0E7C86; -fx-text-fill: #0E7C86;" text="Cancelar"/>
+        <Label fx:id="lblTitulo" text="Nueva cita" wrapText="true"
+               style="-fx-font-size: 23; -fx-font-weight: bold; -fx-text-fill: #0B3557;"
+               GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0"/>
+
+        <Label text="DNI del propietario" GridPane.columnIndex="0" GridPane.rowIndex="1" wrapText="true"/>
+        <ComboBox fx:id="cmbDniCliente" promptText="Seleccione el DNI del propietario" maxWidth="Infinity"
+                  GridPane.columnIndex="1" GridPane.rowIndex="1"
+                  style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D5E1E9; -fx-border-radius: 8; -fx-padding: 5 8;"/>
+
+        <Label text="Propietario" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Label fx:id="lblNombreCliente" text="Seleccione un DNI para cargar sus mascotas" wrapText="true"
+               style="-fx-text-fill: #718391;" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Label text="Mascota" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <ComboBox fx:id="cmbMascota" promptText="Seleccione una mascota" maxWidth="Infinity"
+                  GridPane.columnIndex="1" GridPane.rowIndex="3"
+                  style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D5E1E9; -fx-border-radius: 8; -fx-padding: 5 8;"/>
+
+        <Label text="Veterinario" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <ComboBox fx:id="cmbVeterinario" promptText="Seleccione un veterinario" maxWidth="Infinity"
+                  GridPane.columnIndex="1" GridPane.rowIndex="4"
+                  style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D5E1E9; -fx-border-radius: 8; -fx-padding: 5 8;"/>
+
+        <Label text="Fecha" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <DatePicker fx:id="dpFecha" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="5"
+                    style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D5E1E9; -fx-border-radius: 8;"/>
+
+        <Label text="Hora" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+        <ComboBox fx:id="cmbHora" promptText="Seleccione un horario" maxWidth="Infinity"
+                  GridPane.columnIndex="1" GridPane.rowIndex="6"
+                  style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D5E1E9; -fx-border-radius: 8; -fx-padding: 5 8;"/>
+
+        <Label text="Motivo de atención" GridPane.columnIndex="0" GridPane.rowIndex="7" wrapText="true"/>
+        <TextArea fx:id="txtMotivo" promptText="Describa brevemente el motivo" wrapText="true" prefRowCount="3"
+                  GridPane.columnIndex="1" GridPane.rowIndex="7"
+                  style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D5E1E9; -fx-border-radius: 8; -fx-padding: 5 8;"/>
+
+        <Label text="Estado inicial" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+        <Label fx:id="lblEstado" text="Pendiente" minHeight="30" alignment="CENTER_LEFT"
+               style="-fx-background-color: #EAF4F6; -fx-background-radius: 8; -fx-padding: 7 10; -fx-text-fill: #0E596B; -fx-font-weight: bold;"
+               GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+
+        <HBox alignment="CENTER_RIGHT" spacing="10" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="9">
+            <Button fx:id="btnGuardar" onAction="#handleSaved" defaultButton="true" text="Guardar cita" prefHeight="36" prefWidth="130"
+                    style="-fx-background-color: #EFA30E; -fx-text-fill: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-padding: 8 16; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(20,55,75,0.16), 8, 0.08, 0, 2);"/>
+            <Button fx:id="btnCancelarEdicion" onAction="#handleCancel" cancelButton="true" text="Cancelar" prefHeight="36" prefWidth="110"
+                    style="-fx-background-color: white; -fx-border-color: #E98554; -fx-border-width: 1.5; -fx-text-fill: #C55C32; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 13px; -fx-padding: 8 16; -fx-cursor: hand;"/>
         </HBox>
-        <Label fx:id="lblMensaje" prefWidth="600" text="" wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="8" minWidth="0"/>
+
+        <Label fx:id="lblMensaje" text="" wrapText="true"
+               GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="10"/>
     </children>
     <rowConstraints>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
+        <RowConstraints/><RowConstraints/><RowConstraints/><RowConstraints/><RowConstraints/>
+        <RowConstraints/><RowConstraints/><RowConstraints prefHeight="92"/><RowConstraints/>
+        <RowConstraints/><RowConstraints/>
     </rowConstraints>
 </GridPane>

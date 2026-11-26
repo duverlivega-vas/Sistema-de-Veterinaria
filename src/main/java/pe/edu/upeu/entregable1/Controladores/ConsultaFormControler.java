@@ -5,6 +5,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import java.util.HashSet;
+import java.util.Set;
 import pe.edu.upeu.entregable1.modelo.*;
 import pe.edu.upeu.entregable1.implementacion.*;
 
@@ -20,7 +23,34 @@ public class ConsultaFormControler {
     @FXML
     public void initialize() {
         try {
-            cmbCita.setItems(FXCollections.observableArrayList(new CitaImpl().listAll()));
+            Set<Integer> citasConConsulta = new HashSet<>();
+            for (Consulta consulta : new ConsultaImpl().listAll()) {
+                if (consulta.getCita() != null) citasConConsulta.add(consulta.getCita().getIdCita());
+            }
+            var citasDisponibles = new CitaImpl().listAll().stream()
+                    .filter(cita -> "Atendida".equalsIgnoreCase(cita.getEstado()))
+                    .filter(cita -> !citasConConsulta.contains(cita.getIdCita()))
+                    .toList();
+            cmbCita.setItems(FXCollections.observableArrayList(citasDisponibles));
+            cmbCita.setConverter(new StringConverter<>() {
+                @Override
+                public String toString(Cita cita) {
+                    if (cita == null) return "";
+                    String mascota = cita.getMascota() == null ? "Mascota" : cita.getMascota().getNombre();
+                    String veterinario = cita.getVeterinario() == null ? "" :
+                            " — Dr. " + cita.getVeterinario().getNombres() + " " + cita.getVeterinario().getApellidos();
+                    return cita.getFecha() + " " + cita.getHora() + " — " + mascota + veterinario;
+                }
+
+                @Override
+                public Cita fromString(String texto) {
+                    return null;
+                }
+            });
+            if (citasDisponibles.isEmpty()) {
+                lblMensaje.setText("No hay citas atendidas disponibles para registrar una consulta.");
+                btnGuardar.setDisable(true);
+            }
         } catch (Exception e) {
             mostrarMensaje("No se pudieron cargar las opciones: " + e.getMessage(), "ERROR");
             btnGuardar.setDisable(true);
@@ -31,10 +61,15 @@ public class ConsultaFormControler {
         this.c = c;
         if (c == null) return;
         lblTitulo.setText("Editar consulta");
-        for (Cita opcion : cmbCita.getItems()) {
-            if (opcion.getIdCita() == c.getCita().getIdCita()) {
-                cmbCita.setValue(opcion);
-                break;
+        if (c.getCita() != null) {
+            Cita citaActual = new CitaImpl().searchById(c.getCita().getIdCita());
+            if (citaActual != null) {
+                boolean disponible = cmbCita.getItems().stream()
+                        .anyMatch(opcion -> opcion.getIdCita() == citaActual.getIdCita());
+                if (!disponible) cmbCita.getItems().add(citaActual);
+                cmbCita.setValue(citaActual);
+                btnGuardar.setDisable(false);
+                lblMensaje.setText("");
             }
         }
         txtDiagnostico.setText(c.getDiagnostico());
@@ -53,6 +88,10 @@ public class ConsultaFormControler {
         if (cmbCita.getValue() == null ||
                 txtDiagnostico.getText().isBlank()) {
             mostrarMensaje("Complete los campos obligatorios y seleccione las opciones", "WARNING");
+            return false;
+        }
+        if (c == null && !"Atendida".equalsIgnoreCase(cmbCita.getValue().getEstado())) {
+            mostrarMensaje("Solo se puede registrar una consulta para una cita atendida", "WARNING");
             return false;
         }
         return true;

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="loginRoot" prefHeight="640" prefWidth="900" styleClass="login-root" stylesheets="@login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pe.edu.upeu.entregable1.Controladores.LoginControler">
+<StackPane fx:id="loginRoot" prefHeight="600" prefWidth="820" styleClass="login-root" stylesheets="@login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pe.edu.upeu.entregable1.Controladores.LoginControler">
     <children>
         <!-- La decoración ocupa el fondo; el formulario se centra por separado. -->
         <ImageView fitHeight="160" fitWidth="${loginRoot.width}" mouseTransparent="true" opacity="0.65" preserveRatio="false" StackPane.alignment="BOTTOM_CENTER">

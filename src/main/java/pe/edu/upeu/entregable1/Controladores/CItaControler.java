@@ -48,6 +48,25 @@ public class CItaControler {
         colHora.setCellValueFactory(column -> column.getValue().horaProperty());
         colMotivo.setCellValueFactory(column -> column.getValue().motivoProperty());
         colEstado.setCellValueFactory(column -> column.getValue().estadoProperty());
+        colEstado.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String estado, boolean empty) {
+                super.updateItem(estado, empty);
+                if (empty || estado == null) {
+                    setText(null);
+                    setStyle("");
+                    return;
+                }
+                setText(estado);
+                switch (estado) {
+                    case "Pendiente" -> setStyle("-fx-text-fill: #9A6700; -fx-font-weight: bold;");
+                    case "En atención" -> setStyle("-fx-text-fill: #0E596B; -fx-font-weight: bold;");
+                    case "Atendida" -> setStyle("-fx-text-fill: #1B5E20; -fx-font-weight: bold;");
+                    case "Cancelada" -> setStyle("-fx-text-fill: #B71C1C; -fx-font-weight: bold;");
+                    default -> setStyle("");
+                }
+            }
+        });
         cargardatos();
     }
 
@@ -60,11 +79,6 @@ public class CItaControler {
         }
     }
 
-    @FXML
-    private void handleListAll() {
-        lblMensaje.setText("");
-        cargardatos();
-    }
 
     @FXML
     private void handleNew() { showForm(null); }
@@ -74,6 +88,10 @@ public class CItaControler {
         Cita c = tblCitas.getSelectionModel().getSelectedItem();
         if (c == null) {
             mostrarMensaje("Seleccione un registro para editar", "WARNING");
+            return;
+        }
+        if ("Atendida".equals(c.getEstado()) || "Cancelada".equals(c.getEstado())) {
+            mostrarMensaje("No se puede editar una cita atendida o cancelada", "WARNING");
             return;
         }
         try {
@@ -92,8 +110,11 @@ public class CItaControler {
             mostrarMensaje("Seleccione un registro para eliminar", "WARNING");
             return;
         }
-        Alert alerta = Alerts.viewAlerts("Eliminar cita",
-                "¿Desea eliminar el registro seleccionado?", "CONFIRMATION");
+        String mensaje = "¿Desea eliminar la cita seleccionada?";
+        if ("Atendida".equals(c.getEstado())) {
+            mensaje += " Si tiene consulta o tratamiento asociado, se conservará el historial clínico y no podrá eliminarse.";
+        }
+        Alert alerta = Alerts.viewAlerts("Eliminar cita", mensaje, "CONFIRMATION");
         alerta.initOwner(tblCitas.getScene().getWindow());
         Optional<ButtonType> result = alerta.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -105,6 +126,57 @@ public class CItaControler {
                     mostrarMensaje("El registro ya no existe. Pulse Mostrar todos para actualizar la tabla.", "WARNING");
                 }
             } catch (Exception e) {
+                mostrarMensaje(e.getMessage(), "ERROR");
+            }
+        }
+    }
+
+    @FXML
+    private void handleIniciarAtencion() {
+        cambiarEstado("En atención", "Pendiente", "Iniciar atención",
+                "¿Desea iniciar la atención de esta cita?");
+    }
+
+    @FXML
+    private void handleMarcarAtendida() {
+        cambiarEstado("Atendida", "En atención", "Finalizar atención",
+                "¿Confirma que la atención de esta cita terminó?");
+    }
+
+    @FXML
+    private void handleCancelarCita() {
+        cambiarEstado("Cancelada", "Pendiente", "Cancelar cita",
+                "¿Desea cancelar esta cita?");
+    }
+
+    private void cambiarEstado(String nuevoEstado, String estadoRequerido,
+                               String titulo, String mensaje) {
+        Cita seleccionada = tblCitas.getSelectionModel().getSelectedItem();
+        if (seleccionada == null) {
+            mostrarMensaje("Seleccione una cita", "WARNING");
+            return;
+        }
+        if (!estadoRequerido.equals(seleccionada.getEstado())) {
+            mostrarMensaje("Esta acción requiere que la cita esté en estado " + estadoRequerido + ".", "WARNING");
+            return;
+        }
+
+        Alert confirmacion = Alerts.viewAlerts(titulo, mensaje, "CONFIRMATION");
+        confirmacion.initOwner(tblCitas.getScene().getWindow());
+        Optional<ButtonType> respuesta = confirmacion.showAndWait();
+        if (respuesta.isPresent() && respuesta.get() == ButtonType.OK) {
+            String estadoAnterior = seleccionada.getEstado();
+            try {
+                seleccionada.setEstado(nuevoEstado);
+                if (citaDao.updateStatus(seleccionada)) {
+                    cargardatos();
+                    mostrarMensaje("Estado actualizado: " + nuevoEstado, "CONFIRMATION");
+                } else {
+                    seleccionada.setEstado(estadoAnterior);
+                    mostrarMensaje("No se pudo actualizar el estado de la cita", "ERROR");
+                }
+            } catch (Exception e) {
+                seleccionada.setEstado(estadoAnterior);
                 mostrarMensaje(e.getMessage(), "ERROR");
             }
         }

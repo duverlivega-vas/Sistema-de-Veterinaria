@@ -21,6 +21,8 @@ public class VeterinarioFormControler {
     @FXML
     public void initialize() {
         cmbEstado.setValue("Activo");
+        txtTelefono.setTextFormatter(new TextFormatter<String>(change ->
+                change.getControlNewText().matches("[0-9]{0,9}") ? change : null));
     }
 
     public void setVeterinario(Veterinario v) {
@@ -53,6 +55,11 @@ public class VeterinarioFormControler {
         }
         if (!txtDni.getText().trim().matches("[0-9]{8}")) {
             mostrarMensaje("El DNI debe tener 8 dígitos", "WARNING");
+            return false;
+        }
+        String telefono = txtTelefono.getText().trim();
+        if (!telefono.isEmpty() && !telefono.matches("[0-9]{9}")) {
+            mostrarMensaje("El teléfono debe contener exactamente 9 números", "WARNING");
             return false;
         }
         return true;

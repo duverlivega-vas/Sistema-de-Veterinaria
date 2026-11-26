@@ -67,6 +67,39 @@ public class CitaImpl implements ICita {
     }
 
     @Override
+    public boolean updateStatus(Cita c) {
+        String query = "UPDATE cita SET estado=? WHERE idcita=?";
+        try (Connection cn = ConexionBD.getConnection();
+             PreparedStatement st = cn.prepareStatement(query)) {
+            st.setString(1, c.getEstado());
+            st.setInt(2, c.getIdCita());
+            return st.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new IllegalStateException("No se pudo actualizar el estado de la cita: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public boolean verificarConflictoHorario(Cita c) {
+        String query = "SELECT COUNT(*) FROM cita " +
+                "WHERE fecha=? AND hora=? AND estado IN ('Pendiente','En atención') " +
+                "AND (veterinarioId=? OR mascotaId=?) AND idcita<>?";
+        try (Connection cn = ConexionBD.getConnection();
+             PreparedStatement st = cn.prepareStatement(query)) {
+            st.setString(1, c.getFecha().toString());
+            st.setString(2, c.getHora());
+            st.setInt(3, c.getVeterinario().getIdveterinario());
+            st.setInt(4, c.getMascota().getIdMascota());
+            st.setInt(5, c.getIdCita());
+            try (ResultSet rs = st.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("No se pudo verificar el horario: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
     public Cita searchById(int id) {
         Cita c = null;
         String query = "SELECT c.*, m.nombre, v.nombres, v.apellidos FROM cita c, mascota m, veterinario v WHERE c.mascotaId=m.idmascota AND c.veterinarioId=v.idveterinario AND c.idcita=?";
